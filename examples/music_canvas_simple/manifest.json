@@ -18,8 +18,8 @@
     },
     {
       "name": "ComfyUI_LocalMusicCanvas",
-      "git_url": null,
-      "commit": null,
+      "git_url": "https://github.com/Niutonian/-ComfyUI-Music-Canvas.git",
+      "commit": "f537649f349e00bb6ce500f541d95b4bca3e4aae",
       "class_types": [
         "MusicCanvasSequenceTiming",
         "MusicCanvasSequential"
@@ -197,11 +197,5 @@
       ".gif"
     ]
   },
-  "runtime_requirements": [
-    {
-      "module": "music_canvas_source",
-      "reason": "Install this repository in custom_nodes/ComfyUI_LocalMusicCanvas",
-      "help": "A publication URL and release commit have not been assigned; regenerate this export with tools/finalize_block_party.py after publication."
-    }
-  ]
+  "runtime_requirements": []
 }

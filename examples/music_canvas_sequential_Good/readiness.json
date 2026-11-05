@@ -3,18 +3,6 @@
   "label": "Requires manual setup",
   "issues": [
     {
-      "kind": "node",
-      "message": "ComfyUI_LocalMusicCanvas: missing full Git commit pin"
-    },
-    {
-      "kind": "node",
-      "message": "ComfyUI_LocalMusicCanvas: missing or unsupported repository URL"
-    },
-    {
-      "kind": "python",
-      "message": "Install this repository in custom_nodes/ComfyUI_LocalMusicCanvas: A publication URL and release commit have not been assigned; regenerate this export with tools/finalize_block_party.py after publication."
-    },
-    {
       "kind": "python",
       "message": "Isolated MOSS-Music audio runtime and model snapshot: Run setup_runtime.py --install-environment to build/check a patched candidate; install MOSS assets with its configured Python. Package network access is required; see docs/RUNTIME_UPGRADE.md."
     },

@@ -8,4 +8,4 @@ Saved at start 0, 0.8 MP at 2:3, 8 steps, 4-step turbo LoRA at 0.8 and Better Mo
 
 `concept_index=0` and both style dropdowns at `none` retain music-guided automatic selection. Shared transcription/approval and downloads are off. Select your audio in `workflow.json`; follow the main README for runtime/models/Ollama.
 
-The matching Block Party ZIP exposes one audio input, two video outputs and seven verified model references including Beat This. MOSS snapshot/runtime and Ollama setup are separate prerequisites; Music Canvas's public source pin is still missing. `readiness.json` correctly marks manual setup. No input song is shared, and the user's original graph was not altered.
+The matching Block Party ZIP exposes one audio input, two video outputs and seven verified model references including Beat This. Music Canvas has a published source pin. MOSS snapshot/runtime and Ollama setup are separate prerequisites, so `readiness.json` still marks manual setup. No input song is shared, and the user's original graph was not altered.

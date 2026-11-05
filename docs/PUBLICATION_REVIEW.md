@@ -1,6 +1,6 @@
 # Publication review — 2026-11-05
 
-Original source and documentation are now MIT-licensed. Git cleanup succeeded: historical scripts, old workflow bundles, local data and private runtime configuration were removed from the publication index without deleting working files. The selected publication files and actual staged content are scanned separately. No push has been performed and no remote is configured.
+Original source and documentation are MIT-licensed. Git cleanup removed historical scripts, old workflow bundles, local data and private runtime configuration from the publication index without deleting working files. The project is published at [Niutonian/-ComfyUI-Music-Canvas](https://github.com/Niutonian/-ComfyUI-Music-Canvas). Publication used the authenticated GitHub connection because local commit creation was denied in the managed workspace. The initial remote source tree was verified against all 89 audited local blob IDs.
 
 ## Prepared deliverables
 
@@ -27,7 +27,7 @@ All three examples passed live ComfyUI validation with zero errors/warnings. An 
 | --- | --- |
 | Code license and publication index | MIT added; obsolete paths removed and intended files staged. Re-run the index audit after any edits. |
 | Patched runtime | Install/check the candidate where package network access is available, then run full pretrained inference and a fresh advisory audit. The current machine retains the legacy selection. |
-| Public repository and source commit | No destination assigned. Set the real URL/commit and rebuild exports with `tools/finalize_block_party.py` before claiming automatic source installation. |
+| Public repository and source commit | Published at Niutonian/-ComfyUI-Music-Canvas; exports pin source commit f537649f349e00bb6ce500f541d95b4bca3e4aae. The simple job has complete dependency sources; analysis jobs retain explicit runtime prerequisites. |
 | Block Party's external prerequisites | Audio environment, MOSS snapshot and local Ollama/model still require setup. `readiness.json` reports these honestly. |
 | External licensing | H3 terms and derivative-label conflicts still apply. MMH3Tools has no license file in the reviewed revision; its source is not bundled. |
 

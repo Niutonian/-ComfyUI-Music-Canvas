@@ -6,6 +6,6 @@
 
 Built with Block Party's native exporter, with no source audio or weights. Import through its library. UI graphs and detailed notes are in `examples/<name>/`.
 
-**Requires manual setup:** Music Canvas has no assigned public repository/commit. Null pins deliberately stop preparation rather than install the wrong repository. Install this pack manually for now. Analysis examples also need the audio runtime and local Ollama/model. Read their readiness reports and the main README.
+Music Canvas is pinned to [published source commit f537649](https://github.com/Niutonian/-ComfyUI-Music-Canvas/commit/f537649f349e00bb6ce500f541d95b4bca3e4aae). The simple job has complete node/model dependency sources for Block Party preparation. The analysis jobs still require the audio runtime, pinned MOSS snapshot and local Ollama/model. Read each readiness report and the main README; compatible ComfyUI, FFmpeg, hardware and model access are required.
 
-After a release commit exists, run `python tools/finalize_block_party.py --block-party-root <installed-BlockParty> --repository https://github.com/OWNER/REPOSITORY --commit <full-release-commit>`. It rebuilds three manifests/ZIPs; it does not install dependencies, render or push Git changes.
+To repin a future release or fork, run `python tools/finalize_block_party.py --block-party-root <installed-BlockParty> --repository https://github.com/OWNER/REPOSITORY --commit <full-release-commit>`. It rebuilds three manifests/ZIPs; it does not install dependencies, render or push Git changes.

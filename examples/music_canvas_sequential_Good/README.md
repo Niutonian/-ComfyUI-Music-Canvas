@@ -8,6 +8,6 @@ Saved at start 0, total 60 seconds, 15-second segments, Detailed music/full cove
 
 For a full song, consult the timing node's tooltip: total length 0 selects the remaining audio. There is no one-clip total-duration limit; resources and planning limits apply. All branches share the same selected range.
 
-Shared transcription/lyric approval and automatic-download switches are off. Select your audio and follow the main README's audio-runtime/model/Ollama setup. The Block Party ZIP has one audio slot, one video output and seven verified model references including the explicitly mapped Beat This checkpoint. MOSS's folder snapshot and Ollama remain separate setup requirements, not fake model-selector entries. `readiness.json` also records the missing public Music Canvas source pin.
+Shared transcription/lyric approval and automatic-download switches are off. Select your audio and follow the main README's audio-runtime/model/Ollama setup. The Block Party ZIP has one audio slot, one video output and seven verified model references including the explicitly mapped Beat This checkpoint. Music Canvas has a published source pin. MOSS's folder snapshot, the audio runtime and Ollama remain separate setup requirements listed in `readiness.json`.
 
 Private audio names, lyrics/preview text and project labels are removed. Original saved workflows remain untouched.

@@ -35,7 +35,12 @@ Each folder contains UI/API workflows, a Block Party manifest, readiness status 
 
 ### 1. Install the node pack and prerequisites
 
-- Place this repository in `ComfyUI/custom_nodes/ComfyUI_LocalMusicCanvas`.
+From your `ComfyUI/custom_nodes/` folder, clone the node pack:
+
+```text
+git clone https://github.com/Niutonian/-ComfyUI-Music-Canvas.git ComfyUI_LocalMusicCanvas
+```
+
 - Use an H3-capable ComfyUI and install [ComfyUI-H3-Multishot](https://github.com/jlucasmcrell/ComfyUI-H3-Multishot) for the H3 model/encoder loaders. The `music_canvas_14sec_max` example also needs [ComfyUI-MMH3Tools](https://github.com/ckinpdx/ComfyUI-MMH3Tools) for its frame calculator.
 - Install [FFmpeg](https://ffmpeg.org/download.html) on PATH for sequential video exports. ComfyUI supplies its usual Torch, audio, soundfile and video dependencies; this node pack does not upgrade ComfyUI's Torch.
 - For the two audio-analysis examples, install Git, [uv](https://docs.astral.sh/uv/) and [Ollama](https://ollama.com/). The simple example does not need MOSS-Music, Beat This! or Ollama.
@@ -133,7 +138,7 @@ Ollama imports this file into its own model store; it does not belong in a Comfy
 
 Install [Comfyui_BlockParty](https://github.com/Niutonian/Comfyui_BlockParty) and import one of the [three native ZIP exports](share/README.md). Model entries contain direct commit-pinned Hugging Face URLs, sizes and SHA-256 checksums; the Beat This checkpoint has an explicit model mapping. No weights are embedded.
 
-**Current status: requires manual setup.** The Music Canvas repository/commit is missing, and Ollama, its model and the isolated audio runtime require separate setup. `readiness.json` states those requirements. Once a release commit exists, `tools/finalize_block_party.py` can pin it and rebuild the ZIPs. Block Party's normal preparation confirmations still apply.
+The exports pin Music Canvas to [source commit f537649](https://github.com/Niutonian/-ComfyUI-Music-Canvas/commit/f537649f349e00bb6ce500f541d95b4bca3e4aae), alongside the external node and model sources. The simple workflow's dependency sources are ready for Block Party preparation. The two analysis workflows also need a configured audio runtime, MOSS snapshot and local Ollama/model; their `readiness.json` files list those manual prerequisites. Compatible ComfyUI, hardware, FFmpeg and access to the models remain required. Block Party's normal preparation confirmations still apply.
 
 The motion LoRA's upstream filename differs from its local filename. Its verified source bytes are installed as `better_motion_h3_lora_v1_500.safetensors` to match these graphs. See [model_sources.json](docs/model_sources.json).
 
@@ -155,4 +160,4 @@ Historical development scripts, superseded notes and inspection dumps are retain
 
 ## Publication status
 
-The three examples passed live ComfyUI validation, the publication/index cleanup succeeded, and the runtime unit tests and media-publication checks passed. The 89-file publication set, including the four showcase files, passes both the working-tree and staged-content scans. Original source is MIT-licensed. Patched runtime installation/full-model validation remains pending because package network access was blocked; the existing environment was preserved. A public repository/source commit is still needed for automatic Block Party source installation. See the [publication review](docs/PUBLICATION_REVIEW.md), [license review](docs/LICENSE_REVIEW.md) and [security findings](SECURITY.md) for details. External model and soundtrack licenses remain separate from MIT.
+The three examples passed live ComfyUI validation, the publication/index cleanup succeeded, and the runtime unit tests and media-publication checks passed. The 89-file publication set, including the four showcase files, passes both the working-tree and staged-content scans. Original source is MIT-licensed, and Block Party exports now include a published source pin. Patched runtime installation/full-model validation remains pending because package network access was blocked; the existing environment was preserved. See the [publication review](docs/PUBLICATION_REVIEW.md), [license review](docs/LICENSE_REVIEW.md) and [security findings](SECURITY.md) for details. External model and soundtrack licenses remain separate from MIT.

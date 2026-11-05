@@ -1,20 +1,7 @@
 {
-  "ready": false,
-  "label": "Requires manual setup",
-  "issues": [
-    {
-      "kind": "node",
-      "message": "ComfyUI_LocalMusicCanvas: missing full Git commit pin"
-    },
-    {
-      "kind": "node",
-      "message": "ComfyUI_LocalMusicCanvas: missing or unsupported repository URL"
-    },
-    {
-      "kind": "python",
-      "message": "Install this repository in custom_nodes/ComfyUI_LocalMusicCanvas: A publication URL and release commit have not been assigned; regenerate this export with tools/finalize_block_party.py after publication."
-    }
-  ],
+  "ready": true,
+  "label": "Ready for automatic setup",
+  "issues": [],
   "download_bytes": 44734215127,
   "unknown_sizes": 0,
   "required_inputs": [
