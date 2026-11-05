@@ -1,0 +1,25 @@
+{
+  "review_date": "2026-11-05",
+  "patched_environment_installed": false,
+  "compatibility_passed": false,
+  "full_inference_passed": false,
+  "dependency_audit_completed": false,
+  "candidate_targets": {
+    "torch": "2.10.0",
+    "torchaudio": "2.10.0",
+    "setuptools": "84.2.1",
+    "transformers": "4.57.6"
+  },
+  "portable_unit_tests": {
+    "passed": 89,
+    "failures": 0,
+    "errors": 0
+  },
+  "legacy_compatibility_passed": true,
+  "legacy_safetensors_reload_passed": true,
+  "legacy_default_beat_smoke_passed": true,
+  "legacy_dependency_versions_patched": false,
+  "custom_generation_mitigation": "Blocked before fetching Python in the Music Canvas MOSS worker; upstream Transformers is not declared patched.",
+  "candidate_installation_attempt": "Failed at package download; selected runtime configuration was preserved.",
+  "blocker": "Package network connections refused; network-enabled execution rejected because permission escalation is disabled."
+}

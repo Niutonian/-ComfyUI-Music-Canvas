@@ -1,0 +1,543 @@
+{
+  "3": {
+    "inputs": {
+      "model_name": "Minimax-h3_Singularity_ref2va_Pruned_v1.3_int8.safetensors",
+      "activation_reserve_gb": 0
+    },
+    "class_type": "H3ModelLoaderAny",
+    "_meta": {
+      "title": "H3 model"
+    }
+  },
+  "4": {
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "mmproj_name": "(auto)"
+    },
+    "class_type": "H3ClipLoaderAny",
+    "_meta": {
+      "title": "text encoder"
+    }
+  },
+  "6": {
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "video VAE"
+    }
+  },
+  "7": {
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "audio VAE"
+    }
+  },
+  "20": {
+    "inputs": {
+      "audio": "SELECT_YOUR_AUDIO.wav"
+    },
+    "class_type": "LoadAudio",
+    "_meta": {
+      "title": "LoadAudio"
+    }
+  },
+  "21": {
+    "inputs": {
+      "start_index": 0,
+      "audio": [
+        "20",
+        0
+      ],
+      "duration": [
+        "52",
+        3
+      ]
+    },
+    "class_type": "TrimAudioDuration",
+    "_meta": {
+      "title": "TrimAudioDuration"
+    }
+  },
+  "22": {
+    "inputs": {
+      "clip": [
+        "4",
+        0
+      ],
+      "vae": [
+        "6",
+        0
+      ],
+      "prompt": [
+        "49",
+        0
+      ],
+      "width": [
+        "36",
+        0
+      ],
+      "height": [
+        "36",
+        1
+      ],
+      "length": [
+        "52",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3ImageToVideo",
+    "_meta": {
+      "title": "EDIT ANIMATION STYLE + THREE SHOTS"
+    }
+  },
+  "23": {
+    "inputs": {
+      "frame_idx": 0,
+      "positive": [
+        "22",
+        0
+      ],
+      "latent": [
+        "22",
+        1
+      ],
+      "audio_vae": [
+        "7",
+        0
+      ],
+      "audio": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3AddGuide",
+    "_meta": {
+      "title": "MiniMaxH3AddGuide"
+    }
+  },
+  "24": {
+    "inputs": {
+      "shift_video": 12,
+      "shift_audio": 3,
+      "model": [
+        "56",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3SigmaShift",
+    "_meta": {
+      "title": "MiniMaxH3SigmaShift"
+    }
+  },
+  "25": {
+    "inputs": {
+      "model": [
+        "24",
+        0
+      ],
+      "conditioning": [
+        "23",
+        0
+      ]
+    },
+    "class_type": "BasicGuider",
+    "_meta": {
+      "title": "BasicGuider"
+    }
+  },
+  "26": {
+    "inputs": {
+      "noise_seed": 42
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "RandomNoise"
+    }
+  },
+  "27": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "KSamplerSelect"
+    }
+  },
+  "28": {
+    "inputs": {
+      "scheduler": "beta",
+      "steps": 8,
+      "denoise": 1,
+      "model": [
+        "24",
+        0
+      ]
+    },
+    "class_type": "BasicScheduler",
+    "_meta": {
+      "title": "BasicScheduler"
+    }
+  },
+  "29": {
+    "inputs": {
+      "noise": [
+        "26",
+        0
+      ],
+      "guider": [
+        "25",
+        0
+      ],
+      "sampler": [
+        "27",
+        0
+      ],
+      "sigmas": [
+        "28",
+        0
+      ],
+      "latent_image": [
+        "22",
+        1
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "30": {
+    "inputs": {
+      "av_latent": [
+        "29",
+        0
+      ]
+    },
+    "class_type": "LTXVSeparateAVLatent",
+    "_meta": {
+      "title": "LTXVSeparateAVLatent"
+    }
+  },
+  "31": {
+    "inputs": {
+      "samples": [
+        "30",
+        0
+      ],
+      "vae": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAEDecode"
+    }
+  },
+  "33": {
+    "inputs": {
+      "filename_prefix": "music_canvas/examples/music_canvas_14sec_max/final",
+      "format": "auto",
+      "codec": "auto",
+      "video": [
+        "61",
+        0
+      ],
+      "format.codec": "auto"
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Preview with original song excerpt"
+    }
+  },
+  "34": {
+    "inputs": {
+      "fps": 24,
+      "bit_depth": "auto",
+      "color_space": "sRGB",
+      "codec": "none",
+      "images": [
+        "31",
+        0
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "CreateVideo"
+    }
+  },
+  "35": {
+    "inputs": {
+      "filename_prefix": "music_canvas/examples/music_canvas_14sec_max/silent",
+      "format": "auto",
+      "codec": "auto",
+      "video": [
+        "34",
+        0
+      ],
+      "format.codec": "auto"
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Silent Spotify Canvas"
+    }
+  },
+  "36": {
+    "inputs": {
+      "aspect_ratio": "2:3 (Portrait Photo)",
+      "megapixels": 0.8,
+      "multiple": 8
+    },
+    "class_type": "ResolutionSelector",
+    "_meta": {
+      "title": "Resolution Selector"
+    }
+  },
+  "37": {
+    "inputs": {
+      "moss_model": "MOSS-Music-8B-Instruct",
+      "beat_model": "beat_this-final0.ckpt",
+      "transcribe_lyrics": false,
+      "device": "cuda:0",
+      "allow_model_download": false,
+      "chunk_seconds": 30,
+      "precision": "4bit",
+      "reanalyze": 0,
+      "analysis_profile": "Quick direction",
+      "structure": "auto",
+      "coverage_mode": "full",
+      "beat_device": "cpu",
+      "analysis_timeout_seconds": 3600,
+      "audio": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "MusicCanvasAnalyze",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Analyze Audio"
+    }
+  },
+  "38": {
+    "inputs": {
+      "source": [
+        "37",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "39": {
+    "inputs": {
+      "source": [
+        "37",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "41": {
+    "inputs": {
+      "exclusions": "captions, logos, lip-sync, flashing, rapid cuts",
+      "profile": "social_preview",
+      "concept_index": 0,
+      "lyrics_approved": false,
+      "temperature": 0.6,
+      "seed": 470784845,
+      "max_tokens": 8192,
+      "regenerate": 0,
+      "directing_approach": "none",
+      "animation_medium": "none",
+      "connection": [
+        "50",
+        0
+      ],
+      "analysis_json": [
+        "37",
+        0
+      ],
+      "artist_direction": [
+        "37",
+        1
+      ],
+      "duration_seconds": [
+        "52",
+        3
+      ]
+    },
+    "class_type": "MusicCanvasOllamaDirector",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Ollama Director"
+    }
+  },
+  "44": {
+    "inputs": {
+      "source": [
+        "41",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "45": {
+    "inputs": {
+      "source": [
+        "41",
+        2
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "46": {
+    "inputs": {
+      "source": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "47": {
+    "inputs": {
+      "source": [
+        "41",
+        3
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "48": {
+    "inputs": {
+      "connection": [
+        "50",
+        0
+      ],
+      "text": [
+        "46",
+        0
+      ]
+    },
+    "class_type": "MusicCanvasOllamaRelease",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Unload Ollama Before Video"
+    }
+  },
+  "49": {
+    "inputs": {
+      "source": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "50": {
+    "inputs": {
+      "model": "ornith-1.5:35b",
+      "base_url": "http://127.0.0.1:11434",
+      "device": "GPU",
+      "context_length": 8192
+    },
+    "class_type": "MusicCanvasOllamaModel",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Ollama Model"
+    }
+  },
+  "51": {
+    "inputs": {
+      "source": [
+        "48",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "52": {
+    "inputs": {
+      "seconds": 8,
+      "rounding": "nearest"
+    },
+    "class_type": "MMH3FrameCalculator",
+    "_meta": {
+      "title": "MMH3 Frame Calculator"
+    }
+  },
+  "55": {
+    "inputs": {
+      "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "strength_model": 0.8,
+      "model": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "56": {
+    "inputs": {
+      "lora_name": "better_motion_h3_lora_v1_500.safetensors",
+      "strength_model": 0.65,
+      "model": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "61": {
+    "inputs": {
+      "fps": 24,
+      "bit_depth": "auto",
+      "color_space": "sRGB",
+      "codec": "none",
+      "images": [
+        "31",
+        0
+      ],
+      "audio": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "Create Video"
+    }
+  }
+}

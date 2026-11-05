@@ -1,0 +1,178 @@
+{
+  "3": {
+    "inputs": {
+      "model_name": "Minimax-h3_Singularity_ref2va_Pruned_v1.3_int8.safetensors",
+      "activation_reserve_gb": 0
+    },
+    "class_type": "H3ModelLoaderAny",
+    "_meta": {
+      "title": "H3 Model Loader (safetensors + GGUF)"
+    }
+  },
+  "4": {
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "mmproj_name": "(auto)"
+    },
+    "class_type": "H3ClipLoaderAny",
+    "_meta": {
+      "title": "H3 CLIP Loader (safetensors + GGUF)"
+    }
+  },
+  "6": {
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "7": {
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "20": {
+    "inputs": {
+      "audio": "SELECT_YOUR_AUDIO.wav"
+    },
+    "class_type": "LoadAudio",
+    "_meta": {
+      "title": "Load Audio"
+    }
+  },
+  "55": {
+    "inputs": {
+      "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "strength_model": 0.8,
+      "model": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "56": {
+    "inputs": {
+      "lora_name": "better_motion_h3_lora_v1_500.safetensors",
+      "strength_model": 0.74,
+      "model": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "62": {
+    "inputs": {
+      "run_name": "music_canvas_simple",
+      "steps": 8,
+      "seed": 858527366066859,
+      "resume": true,
+      "scene_prompts_json": "",
+      "model": [
+        "56",
+        0
+      ],
+      "clip": [
+        "4",
+        0
+      ],
+      "vae": [
+        "6",
+        0
+      ],
+      "audio_vae": [
+        "7",
+        0
+      ],
+      "audio": [
+        "68",
+        0
+      ],
+      "prompt": [
+        "74",
+        0
+      ],
+      "segment_seconds": [
+        "68",
+        1
+      ],
+      "width": [
+        "73",
+        0
+      ],
+      "height": [
+        "73",
+        1
+      ]
+    },
+    "class_type": "MusicCanvasSequential",
+    "_meta": {
+      "title": "Render selected range \u2014 sequential H3 segments"
+    }
+  },
+  "68": {
+    "inputs": {
+      "start_seconds": 0,
+      "total_seconds": 15,
+      "segment_seconds": 15,
+      "audio": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "MusicCanvasSequenceTiming",
+    "_meta": {
+      "title": "VIDEO RANGE \u2014 total seconds / per-scene seconds"
+    }
+  },
+  "69": {
+    "inputs": {
+      "filename_prefix": "music_canvas/examples/music_canvas_simple/final",
+      "format": "auto",
+      "codec": "auto",
+      "video": [
+        "62",
+        2
+      ],
+      "format.codec": "auto"
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "FINAL VIDEO \u2014 preview and export"
+    }
+  },
+  "73": {
+    "inputs": {
+      "aspect_ratio": "2:3 (Portrait Photo)",
+      "megapixels": 0.3,
+      "multiple": 8
+    },
+    "class_type": "ResolutionSelector",
+    "_meta": {
+      "title": "Resolution Selector"
+    }
+  },
+  "74": {
+    "inputs": {
+      "value": "integrated_multimodal_description: [Shot 1] Sculptural animation in a midnight-blue studio. An amber glass ring rolls upright across a reflective floor, its rim flexing with the musical pulse. [Shot 2] Match cut through the ring to a low tracking view as small luminous spheres rise and spiral around it. [Shot 3] Overhead view: the spheres assemble into a luminous orbit, then scatter as the ring settles upright. Distinct compositions, clear physical actions and smooth motion. No titles or logos.\n\noverall_soundscape: N/A\n\nnon_diegetic_music: N/A"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Text (Multiline)"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+# Candidate isolated audio runtime. Torch/torchaudio are installed separately
+# from the official CUDA 12.8 wheel index by setup_runtime.py.
+transformers==4.57.6
+setuptools==84.2.1
+accelerate==1.15.0
+bitsandbytes==0.50.2
+soundfile==0.14.0
+numpy==2.5.4
+scipy==1.18.1
+einops==0.8.2
+tiktoken==0.14.0
+sentencepiece==0.2.2
+protobuf==7.36.2
+huggingface-hub==0.36.2
+beat-this==1.1.0
+lm-format-enforcer==0.11.3
+soxr==1.1.0

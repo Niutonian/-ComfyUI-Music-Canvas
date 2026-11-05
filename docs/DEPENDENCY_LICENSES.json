@@ -1,0 +1,628 @@
+{
+  "review_date": "2026-11-05",
+  "scope": "Observed isolated audio environment; not the entire ComfyUI installation",
+  "packages": [
+    {
+      "name": "accelerate",
+      "recorded_version": "1.15.0",
+      "installed_version": "1.15.0",
+      "declared_license": "Apache",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "annotated-types",
+      "recorded_version": "0.8.0",
+      "installed_version": "0.8.0",
+      "declared_license": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [
+        "Homepage, https://github.com/annotated-types/annotated-types",
+        "Source, https://github.com/annotated-types/annotated-types",
+        "Changelog, https://github.com/annotated-types/annotated-types/releases"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "beat-this",
+      "recorded_version": "1.1.0",
+      "installed_version": "1.1.0",
+      "declared_license": "MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "Repository, https://github.com/CPJKU/beat_this",
+        "Issues, https://github.com/CPJKU/beat_this/issues",
+        "Changelog, https://github.com/CPJKU/beat_this/blob/main/CHANGELOG.md"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "bitsandbytes",
+      "recorded_version": "0.50.2",
+      "installed_version": "0.50.2",
+      "declared_license": "MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "homepage, https://github.com/bitsandbytes-foundation/bitsandbytes",
+        "changelog, https://github.com/bitsandbytes-foundation/bitsandbytes/blob/main/CHANGELOG.md",
+        "docs, https://huggingface.co/docs/bitsandbytes/main",
+        "issues, https://github.com/bitsandbytes-foundation/bitsandbytes/issues"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "certifi",
+      "recorded_version": "2026.10.23",
+      "installed_version": "2026.10.23",
+      "declared_license": "MPL-2.0",
+      "license_classifiers": [
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"
+      ],
+      "upstream": [
+        "Source, https://github.com/certifi/python-certifi"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "cffi",
+      "recorded_version": "2.1.1",
+      "installed_version": "2.1.1",
+      "declared_license": "MIT-0",
+      "license_classifiers": [],
+      "upstream": [
+        "Documentation, https://cffi.readthedocs.io/",
+        "Changelog, https://cffi.readthedocs.io/en/latest/whatsnew.html",
+        "Download, https://github.com/python-cffi/cffi/releases",
+        "Contact, https://groups.google.com/forum/#!forum/python-cffi",
+        "Source Code, https://github.com/python-cffi/cffi",
+        "Issue Tracker, https://github.com/python-cffi/cffi/issues"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "charset-normalizer",
+      "recorded_version": "3.5.2",
+      "installed_version": "3.5.2",
+      "declared_license": "MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "Changelog, https://github.com/jawah/charset_normalizer/blob/master/CHANGELOG.md",
+        "Documentation, https://charset-normalizer.readthedocs.io/",
+        "Code, https://github.com/jawah/charset_normalizer",
+        "Issue tracker, https://github.com/jawah/charset_normalizer/issues"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "colorama",
+      "recorded_version": "0.4.6",
+      "installed_version": "0.4.6",
+      "declared_license": "",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "upstream": [
+        "Homepage, https://github.com/tartley/colorama"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "einops",
+      "recorded_version": "0.8.2",
+      "installed_version": "0.8.2",
+      "declared_license": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [
+        "Homepage, https://github.com/arogozhnikov/einops"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "filelock",
+      "recorded_version": "4.2.4",
+      "installed_version": "4.2.4",
+      "declared_license": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [
+        "Documentation, https://py-filelock.readthedocs.io",
+        "Homepage, https://github.com/tox-dev/py-filelock",
+        "Source, https://github.com/tox-dev/py-filelock",
+        "Tracker, https://github.com/tox-dev/py-filelock/issues"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "fsspec",
+      "recorded_version": "2026.9.0",
+      "installed_version": "2026.9.0",
+      "declared_license": "BSD-3-Clause",
+      "license_classifiers": [],
+      "upstream": [
+        "Changelog, https://filesystem-spec.readthedocs.io/en/latest/changelog.html",
+        "Documentation, https://filesystem-spec.readthedocs.io/en/latest/",
+        "Homepage, https://github.com/fsspec/filesystem_spec"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "huggingface-hub",
+      "recorded_version": "0.36.2",
+      "installed_version": "0.36.2",
+      "declared_license": "Apache",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "idna",
+      "recorded_version": "3.20",
+      "installed_version": "3.20",
+      "declared_license": "BSD-3-Clause",
+      "license_classifiers": [],
+      "upstream": [
+        "Changelog, https://github.com/kjd/idna/blob/master/HISTORY.md",
+        "Issue tracker, https://github.com/kjd/idna/issues",
+        "Source, https://github.com/kjd/idna"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "interegular",
+      "recorded_version": "0.3.3",
+      "installed_version": "0.3.3",
+      "declared_license": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "jinja2",
+      "recorded_version": "3.1.6",
+      "installed_version": "3.1.6",
+      "declared_license": "",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "upstream": [
+        "Changes, https://jinja.palletsprojects.com/changes/",
+        "Chat, https://discord.gg/pallets",
+        "Documentation, https://jinja.palletsprojects.com/",
+        "Donate, https://palletsprojects.com/donate",
+        "Source, https://github.com/pallets/jinja/"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "lm-format-enforcer",
+      "recorded_version": "0.11.3",
+      "installed_version": "0.11.3",
+      "declared_license": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [
+        "Bug Tracker, https://github.com/noamgat/lm-format-enforcer/issues",
+        "Documentation, https://github.com/noamgat/lm-format-enforcer",
+        "Homepage, https://github.com/noamgat/lm-format-enforcer",
+        "Repository, https://github.com/noamgat/lm-format-enforcer"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "markupsafe",
+      "recorded_version": "3.0.3",
+      "installed_version": "3.0.3",
+      "declared_license": "BSD-3-Clause",
+      "license_classifiers": [],
+      "upstream": [
+        "Donate, https://palletsprojects.com/donate",
+        "Documentation, https://markupsafe.palletsprojects.com/",
+        "Changes, https://markupsafe.palletsprojects.com/page/changes/",
+        "Source, https://github.com/pallets/markupsafe/",
+        "Chat, https://discord.gg/pallets"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "mpmath",
+      "recorded_version": "1.3.0",
+      "installed_version": "1.3.0",
+      "declared_license": "BSD",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "upstream": [
+        "Source, https://github.com/fredrik-johansson/mpmath",
+        "Tracker, https://github.com/fredrik-johansson/mpmath/issues",
+        "Documentation, http://mpmath.org/doc/current/"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "networkx",
+      "recorded_version": "3.7",
+      "installed_version": "3.7",
+      "declared_license": "BSD-3-Clause",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://networkx.org/",
+        "Bug Tracker, https://github.com/networkx/networkx/issues",
+        "Documentation, https://networkx.org/documentation/stable/",
+        "Source Code, https://github.com/networkx/networkx"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "numpy",
+      "recorded_version": "2.5.4",
+      "installed_version": "2.5.4",
+      "declared_license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+      "license_classifiers": [],
+      "upstream": [
+        "homepage, https://numpy.org",
+        "documentation, https://numpy.org/doc/",
+        "source, https://github.com/numpy/numpy",
+        "download, https://pypi.org/project/numpy/#files",
+        "tracker, https://github.com/numpy/numpy/issues",
+        "release notes, https://numpy.org/doc/stable/release"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "packaging",
+      "recorded_version": "26.3",
+      "installed_version": "26.3",
+      "declared_license": "Apache-2.0 OR BSD-2-Clause",
+      "license_classifiers": [],
+      "upstream": [
+        "Documentation, https://packaging.pypa.io/",
+        "Source, https://github.com/pypa/packaging"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "protobuf",
+      "recorded_version": "7.36.2",
+      "installed_version": "7.36.2",
+      "declared_license": "3-Clause BSD License",
+      "license_classifiers": [],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "psutil",
+      "recorded_version": "7.2.2",
+      "installed_version": "7.2.2",
+      "declared_license": "BSD-3-Clause",
+      "license_classifiers": [],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "pycparser",
+      "recorded_version": "3.12",
+      "installed_version": "3.12",
+      "declared_license": "BSD-3-Clause",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://github.com/eliben/pycparser"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "pydantic",
+      "recorded_version": "2.14.2",
+      "installed_version": "2.14.2",
+      "declared_license": "MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://github.com/pydantic/pydantic",
+        "Documentation, https://pydantic.dev/docs/validation/latest/get-started/",
+        "Funding, https://github.com/sponsors/samuelcolvin",
+        "Source, https://github.com/pydantic/pydantic",
+        "Changelog, https://pydantic.dev/docs/validation/latest/get-started/changelog/"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "pydantic-core",
+      "recorded_version": "2.50.2",
+      "installed_version": "2.50.2",
+      "declared_license": "MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "Funding, https://github.com/sponsors/samuelcolvin",
+        "Homepage, https://github.com/pydantic",
+        "Source, https://github.com/pydantic/pydantic/tree/main/pydantic-core"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "pyyaml",
+      "recorded_version": "6.0.3",
+      "installed_version": "6.0.3",
+      "declared_license": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [
+        "Bug Tracker, https://github.com/yaml/pyyaml/issues",
+        "CI, https://github.com/yaml/pyyaml/actions",
+        "Documentation, https://pyyaml.org/wiki/PyYAMLDocumentation",
+        "Mailing lists, http://lists.sourceforge.net/lists/listinfo/yaml-core",
+        "Source Code, https://github.com/yaml/pyyaml"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "regex",
+      "recorded_version": "2026.9.29",
+      "installed_version": "2026.9.29",
+      "declared_license": "Apache-2.0 AND CNRI-Python",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://github.com/mrabarnett/mrab-regex"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "requests",
+      "recorded_version": "2.34.2",
+      "installed_version": "2.34.2",
+      "declared_license": "Apache-2.0",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "upstream": [
+        "Documentation, https://requests.readthedocs.io",
+        "Source, https://github.com/psf/requests"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "rotary-embedding-torch",
+      "recorded_version": "0.9.1",
+      "installed_version": "0.9.1",
+      "declared_license": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [
+        "Homepage, https://codeberg.og/lucidrains/rotary-embedding-torch"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "safetensors",
+      "recorded_version": "0.8.0",
+      "installed_version": "0.8.0",
+      "declared_license": "",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "upstream": [
+        "Homepage, https://github.com/huggingface/safetensors",
+        "Source, https://github.com/huggingface/safetensors"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "scipy",
+      "recorded_version": "1.18.1",
+      "installed_version": "1.18.1",
+      "declared_license": "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers. (full text in installed distribution)",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "upstream": [
+        "homepage, https://scipy.org/",
+        "documentation, https://docs.scipy.org/doc/scipy/",
+        "source, https://github.com/scipy/scipy",
+        "download, https://github.com/scipy/scipy/releases",
+        "tracker, https://github.com/scipy/scipy/issues"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "sentencepiece",
+      "recorded_version": "0.2.2",
+      "installed_version": "0.2.2",
+      "declared_license": "Apache-2.0",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://github.com/google/sentencepiece"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "setuptools",
+      "recorded_version": "78.1.0",
+      "installed_version": "78.1.0",
+      "declared_license": "",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "upstream": [
+        "Source, https://github.com/pypa/setuptools",
+        "Documentation, https://setuptools.pypa.io/",
+        "Changelog, https://setuptools.pypa.io/en/stable/history.html"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "soundfile",
+      "recorded_version": "0.14.0",
+      "installed_version": "0.14.0",
+      "declared_license": "BSD 3-Clause License",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "soxr",
+      "recorded_version": "1.1.0",
+      "installed_version": "1.1.0",
+      "declared_license": "LGPL-2.1-or-later",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://github.com/dofuuz/python-soxr",
+        "Documentation, https://python-soxr.readthedocs.io",
+        "Release Notes, https://github.com/dofuuz/python-soxr/releases",
+        "Source, https://github.com/dofuuz/python-soxr",
+        "Bug Tracker, https://github.com/dofuuz/python-soxr/issues"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "sympy",
+      "recorded_version": "1.14.0",
+      "installed_version": "1.14.0",
+      "declared_license": "BSD",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "upstream": [
+        "Source, https://github.com/sympy/sympy"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "tiktoken",
+      "recorded_version": "0.14.0",
+      "installed_version": "0.14.0",
+      "declared_license": "MIT License (full text in installed distribution)",
+      "license_classifiers": [],
+      "upstream": [
+        "homepage, https://github.com/openai/tiktoken",
+        "repository, https://github.com/openai/tiktoken",
+        "changelog, https://github.com/openai/tiktoken/blob/main/CHANGELOG.md"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "tokenizers",
+      "recorded_version": "0.22.2",
+      "installed_version": "0.22.2",
+      "declared_license": "",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "upstream": [
+        "Homepage, https://github.com/huggingface/tokenizers",
+        "Source, https://github.com/huggingface/tokenizers"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "torch",
+      "recorded_version": "2.9.1+cu128",
+      "installed_version": "2.9.1+cu128",
+      "declared_license": "BSD-3-Clause",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://pytorch.org",
+        "Repository, https://github.com/pytorch/pytorch",
+        "Documentation, https://pytorch.org/docs",
+        "Issue Tracker, https://github.com/pytorch/pytorch/issues",
+        "Forum, https://discuss.pytorch.org"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "torchaudio",
+      "recorded_version": "2.9.1+cu128",
+      "installed_version": "2.9.1+cu128",
+      "declared_license": "",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "tqdm",
+      "recorded_version": "4.70.1",
+      "installed_version": "4.70.1",
+      "declared_license": "MPL-2.0 AND MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "homepage, https://tqdm.github.io",
+        "repository, https://github.com/tqdm/tqdm",
+        "changelog, https://tqdm.github.io/releases",
+        "wiki, https://github.com/tqdm/tqdm/wiki"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "transformers",
+      "recorded_version": "4.57.1",
+      "installed_version": "4.57.1",
+      "declared_license": "Apache 2.0 License",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "upstream": [],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "typing-extensions",
+      "recorded_version": "4.16.0",
+      "installed_version": "4.16.0",
+      "declared_license": "PSF-2.0",
+      "license_classifiers": [],
+      "upstream": [
+        "Bug Tracker, https://github.com/python/typing_extensions/issues",
+        "Changes, https://github.com/python/typing_extensions/blob/main/CHANGELOG.md",
+        "Documentation, https://typing-extensions.readthedocs.io/",
+        "Home, https://github.com/python/typing_extensions",
+        "Q & A, https://github.com/python/typing/discussions",
+        "Repository, https://github.com/python/typing_extensions"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "typing-inspection",
+      "recorded_version": "0.4.4",
+      "installed_version": "0.4.4",
+      "declared_license": "MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "Homepage, https://github.com/pydantic/typing-inspection",
+        "Documentation, https://pydantic.github.io/typing-inspection/dev/",
+        "Source, https://github.com/pydantic/typing-inspection",
+        "Changelog, https://github.com/pydantic/typing-inspection/blob/main/HISTORY.md"
+      ],
+      "status": "metadata only; upstream terms apply"
+    },
+    {
+      "name": "urllib3",
+      "recorded_version": "2.8.0",
+      "installed_version": "2.8.0",
+      "declared_license": "MIT",
+      "license_classifiers": [],
+      "upstream": [
+        "Changelog, https://github.com/urllib3/urllib3/blob/main/CHANGES.rst",
+        "Documentation, https://urllib3.readthedocs.io",
+        "Code, https://github.com/urllib3/urllib3",
+        "Issue tracker, https://github.com/urllib3/urllib3/issues",
+        "Security policy, https://urllib3.readthedocs.io/en/latest/security.html"
+      ],
+      "status": "metadata only; upstream terms apply"
+    }
+  ]
+}

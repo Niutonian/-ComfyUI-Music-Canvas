@@ -1,0 +1,241 @@
+{
+  "name": "music_canvas_sequential_Good",
+  "workflows": [
+    {
+      "name": "default",
+      "file": "workflow.api.json"
+    }
+  ],
+  "nodes": [
+    {
+      "name": "ComfyUI-H3-Multishot",
+      "git_url": "https://github.com/jlucasmcrell/ComfyUI-H3-Multishot",
+      "commit": "9bce864b7df056a2822e4af593de17ef199ebcdc",
+      "class_types": [
+        "H3ClipLoaderAny",
+        "H3ModelLoaderAny"
+      ]
+    },
+    {
+      "name": "ComfyUI_LocalMusicCanvas",
+      "git_url": null,
+      "commit": null,
+      "class_types": [
+        "MusicCanvasAnalyze",
+        "MusicCanvasOllamaDirector",
+        "MusicCanvasOllamaModel",
+        "MusicCanvasOllamaRelease",
+        "MusicCanvasOllamaStoryPlanner",
+        "MusicCanvasOllamaTimeline",
+        "MusicCanvasSave",
+        "MusicCanvasSequenceTiming",
+        "MusicCanvasSequential"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "filename": "Minimax-h3_Singularity_ref2va_Pruned_v1.3_int8.safetensors",
+      "folder": "diffusion_models",
+      "url": "https://huggingface.co/WarmBloodAban/Minimax-h3_Singularity/resolve/1259cf16cd0b655ba691a32fb46a409142762972/Minimax-h3_Singularity_ref2va_Pruned_v1.3_int8.safetensors",
+      "auth": null,
+      "size_bytes": 20967647456,
+      "sha256": "412a7b126595a958964193f3b42513d7cf2df4196ef04223a0f05e3622949cce"
+    },
+    {
+      "filename": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "folder": "text_encoders",
+      "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/54472221d27c695fca9621b0c3ed52f06c4af707/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "auth": null,
+      "size_bytes": 15687142551,
+      "sha256": "35a88d51044231fe332301d7a62aa81e3f2cba62febeb446e2c1e3e0ef76f2c6"
+    },
+    {
+      "filename": "minimax_h3_video_vae_fp16.safetensors",
+      "folder": "vae",
+      "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/54472221d27c695fca9621b0c3ed52f06c4af707/vae/minimax_h3_video_vae_fp16.safetensors",
+      "auth": null,
+      "size_bytes": 5207808496,
+      "sha256": "7c1f131492e7eddacaac9069a61b81bdd39de5cc96561e677c5eab1cdce5e522"
+    },
+    {
+      "filename": "minimax_h3_audio_vae_fp32.safetensors",
+      "folder": "vae",
+      "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/54472221d27c695fca9621b0c3ed52f06c4af707/vae/minimax_h3_audio_vae_fp32.safetensors",
+      "auth": null,
+      "size_bytes": 605254808,
+      "sha256": "8e505d95dd1561d47abd43d4238fd40d9bb1ae9e147ed0a4cba778d76ae4db48"
+    },
+    {
+      "filename": "beat_this-final0.ckpt",
+      "folder": "beat_this",
+      "url": "https://cloud.cp.jku.at/public.php/dav/files/7ik4RrBKTS273gp/final0.ckpt",
+      "auth": null,
+      "size_bytes": 81058141,
+      "sha256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+    },
+    {
+      "filename": "minimax_h3_dmd_ref2va_8step_turbo_pruned.safetensors",
+      "folder": "loras",
+      "url": "https://huggingface.co/drbaph/MiniMax-H3-Turbo-Lora-ComfyUI/resolve/bb2bc497cbaca89dadd0bcf1856eed4f8275be20/experimental/minimax_h3_dmd_ref2va_8step_turbo_pruned.safetensors",
+      "auth": null,
+      "size_bytes": 2285989092,
+      "sha256": "693f41129785f31a820d32100b698cdcc42182c27c291f37f47d1ca5f38f5c20"
+    },
+    {
+      "filename": "better_motion_h3_lora_v1_500.safetensors",
+      "folder": "loras",
+      "url": "https://huggingface.co/Alex995647/loras-minimax-h3/resolve/07b79f96579028828a829f6d52923385a93bff72/better-motion-ltx-minimax-h3/mvmt_h3_lora_v1_500.safetensors",
+      "auth": null,
+      "size_bytes": 310168816,
+      "sha256": "285f9ed3fbb735c3625fca0d22166c7450ad7acb552a869fcbbd8e86e79d1f4c"
+    }
+  ],
+  "inputs": [
+    {
+      "node_id": "20",
+      "class_type": "LoadAudio",
+      "key": "audio",
+      "extensions": [
+        ".wav",
+        ".mp3",
+        ".flac",
+        ".ogg",
+        ".m4a",
+        ".aac",
+        ".opus",
+        ".aiff",
+        ".aif",
+        ".mp4",
+        ".webm",
+        ".mkv",
+        ".mov",
+        ".avi",
+        ".gif"
+      ],
+      "name": "audio_0"
+    }
+  ],
+  "outputs": [
+    {
+      "node_id": "69",
+      "class_type": "SaveVideo",
+      "name": "video_0"
+    }
+  ],
+  "output": {
+    "node_id": "69",
+    "class_type": "SaveVideo"
+  },
+  "parameters": [],
+  "repair": {
+    "comfy_not_found": [
+      "ask_path"
+    ],
+    "host_mismatch": [
+      "ask_path"
+    ],
+    "missing_node": [
+      "install_pinned"
+    ],
+    "missing_python_dependency": [
+      "ask"
+    ],
+    "node_version_conflict": [
+      "ask"
+    ],
+    "missing_model": [
+      "download_verified",
+      "ask"
+    ],
+    "missing_source": [
+      "ask"
+    ],
+    "auth_required": [
+      "ask"
+    ],
+    "approval_required": [
+      "ask"
+    ],
+    "restart_required": [
+      "ask"
+    ],
+    "download_failed": [
+      "retry",
+      "ask"
+    ],
+    "install_failed": [
+      "ask"
+    ],
+    "disk_full": [
+      "ask"
+    ],
+    "hash_mismatch": [
+      "stop"
+    ],
+    "stale_contract": [
+      "prepare"
+    ],
+    "oom": [
+      "skip"
+    ],
+    "bad_input": [
+      "skip"
+    ],
+    "unclassified": [
+      "show",
+      "skip"
+    ],
+    "port_busy": [
+      "ask"
+    ]
+  },
+  "model_mappings": [
+    {
+      "node_id": "37",
+      "class_type": "MusicCanvasAnalyze",
+      "key": "beat_model",
+      "filename": "beat_this-final0.ckpt",
+      "folder": "beat_this"
+    }
+  ],
+  "input": {
+    "node_id": "20",
+    "class_type": "LoadAudio",
+    "key": "audio",
+    "extensions": [
+      ".wav",
+      ".mp3",
+      ".flac",
+      ".ogg",
+      ".m4a",
+      ".aac",
+      ".opus",
+      ".aiff",
+      ".aif",
+      ".mp4",
+      ".webm",
+      ".mkv",
+      ".mov",
+      ".avi",
+      ".gif"
+    ]
+  },
+  "runtime_requirements": [
+    {
+      "module": "music_canvas_source",
+      "reason": "Install this repository in custom_nodes/ComfyUI_LocalMusicCanvas",
+      "help": "A publication URL and release commit have not been assigned; regenerate this export with tools/finalize_block_party.py after publication."
+    },
+    {
+      "module": "music_canvas_audio_runtime",
+      "reason": "Isolated MOSS-Music audio runtime and model snapshot",
+      "help": "Run setup_runtime.py --install-environment to build/check a patched candidate; install MOSS assets with its configured Python. Package network access is required; see docs/RUNTIME_UPGRADE.md."
+    },
+    {
+      "module": "ollama",
+      "reason": "A local Ollama service with ornith-1.5:35b is required",
+      "help": "Import the pinned GGUF using docs/ollama/Modelfile; the alias is not assumed to exist in the Ollama registry."
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "repository": "OpenMOSS-Team/MOSS-Music-8B-Instruct",
+  "revision": "fce7f8304e96cc2d3398b8106456cbb2ecec3139",
+  "runtime_source": "https://github.com/OpenMOSS/MOSS-Music",
+  "runtime_commit": "ad107c7ddaa06de168a0dfbc18d3e1e6a40c0e5e",
+  "install_folder": "models/moss_music/MOSS-Music-8B-Instruct",
+  "setup": "audio_assets.py uses this pinned snapshot outside Block Party model selectors",
+  "files": [
+    {
+      "filename": "added_tokens.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/added_tokens.json",
+      "size_bytes": 801,
+      "git_blob_id": "901becf1b925158ca398c16ca738469639d47cee"
+    },
+    {
+      "filename": "chat_template.jinja",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/chat_template.jinja",
+      "size_bytes": 4116,
+      "git_blob_id": "699ff8df401fe4788525e9c1f9b86a99eadd6230"
+    },
+    {
+      "filename": "config.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/config.json",
+      "size_bytes": 2762,
+      "git_blob_id": "64f05ba024484020150e2c35bc35fafee694ada4"
+    },
+    {
+      "filename": "configuration_moss_music.py",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/configuration_moss_music.py",
+      "size_bytes": 3587,
+      "git_blob_id": "fac475389ca3473e7928f7f409dfd0e0eb7a678d"
+    },
+    {
+      "filename": "generation_config.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/generation_config.json",
+      "size_bytes": 120,
+      "git_blob_id": "ca32b8578d40fbf6140cb0ea8f6bf7ba6ca94e9a"
+    },
+    {
+      "filename": "merges.txt",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/merges.txt",
+      "size_bytes": 1671853,
+      "git_blob_id": "31349551d90c7606f325fe0f11bbb8bd5fa0d7c7"
+    },
+    {
+      "filename": "model-00001-of-00004.safetensors",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/model-00001-of-00004.safetensors",
+      "size_bytes": 4931219872,
+      "sha256": "63edf20789c6fa3bac2fb635a097a927a64237d488ffa29c2e1a946c84490f3f"
+    },
+    {
+      "filename": "model-00002-of-00004.safetensors",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/model-00002-of-00004.safetensors",
+      "size_bytes": 4983069688,
+      "sha256": "b2473dec1d6a648372beaf906d26477f73e271de8f0c8eaa8d5b7147518c666c"
+    },
+    {
+      "filename": "model-00003-of-00004.safetensors",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/model-00003-of-00004.safetensors",
+      "size_bytes": 4999847576,
+      "sha256": "5b00d237df0fc68b5d17504ce02dcdae1a724424042d47d6156c5cf60706f4e6"
+    },
+    {
+      "filename": "model-00004-of-00004.safetensors",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/model-00004-of-00004.safetensors",
+      "size_bytes": 3190899504,
+      "sha256": "e598e7a6d470f4766639abafef01670dff46cda3c636aea64d0801cc26309584"
+    },
+    {
+      "filename": "model.safetensors.index.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/model.safetensors.index.json",
+      "size_bytes": 83741,
+      "git_blob_id": "d89da11a12c515829f930bb3f1b3bdf262ae7b01"
+    },
+    {
+      "filename": "modeling_moss_music.py",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/modeling_moss_music.py",
+      "size_bytes": 17119,
+      "git_blob_id": "73d04c44ce19de9a81b97a109fdae94851a71c45"
+    },
+    {
+      "filename": "preprocessor_config.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/preprocessor_config.json",
+      "size_bytes": 130,
+      "git_blob_id": "7056ca06d353964bb32264637de49320528cf937"
+    },
+    {
+      "filename": "processing_moss_music.py",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/processing_moss_music.py",
+      "size_bytes": 14984,
+      "git_blob_id": "c2e10fd2d73e80c6b92cb2831ae42e9eb38d3a35"
+    },
+    {
+      "filename": "special_tokens_map.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/special_tokens_map.json",
+      "size_bytes": 613,
+      "git_blob_id": "ac23c0aaa2434523c494330aeb79c58395378103"
+    },
+    {
+      "filename": "tokenizer_config.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/tokenizer_config.json",
+      "size_bytes": 6114,
+      "git_blob_id": "aaeca3e2ba281c9daeb1d10a4e14c585008ee092"
+    },
+    {
+      "filename": "vocab.json",
+      "url": "https://huggingface.co/OpenMOSS-Team/MOSS-Music-8B-Instruct/resolve/fce7f8304e96cc2d3398b8106456cbb2ecec3139/vocab.json",
+      "size_bytes": 3383407,
+      "git_blob_id": "6bce3a0a3866c4791a74d83d78f6824c3af64ec3"
+    }
+  ]
+}

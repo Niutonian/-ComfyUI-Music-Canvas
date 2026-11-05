@@ -1,0 +1,512 @@
+{
+  "3": {
+    "inputs": {
+      "model_name": "Minimax-h3_Singularity_ref2va_Pruned_v1.3_int8.safetensors",
+      "activation_reserve_gb": 0
+    },
+    "class_type": "H3ModelLoaderAny",
+    "_meta": {
+      "title": "H3 Model Loader (safetensors + GGUF)"
+    }
+  },
+  "4": {
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "mmproj_name": "(auto)"
+    },
+    "class_type": "H3ClipLoaderAny",
+    "_meta": {
+      "title": "H3 CLIP Loader (safetensors + GGUF)"
+    }
+  },
+  "6": {
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "7": {
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "20": {
+    "inputs": {
+      "audio": "SELECT_YOUR_AUDIO.wav"
+    },
+    "class_type": "LoadAudio",
+    "_meta": {
+      "title": "Load Audio"
+    }
+  },
+  "36": {
+    "inputs": {
+      "aspect_ratio": "2:3 (Portrait Photo)",
+      "megapixels": 0.3,
+      "multiple": 8
+    },
+    "class_type": "ResolutionSelector",
+    "_meta": {
+      "title": "Resolution Selector"
+    }
+  },
+  "37": {
+    "inputs": {
+      "moss_model": "MOSS-Music-8B-Instruct",
+      "beat_model": "beat_this-final0.ckpt",
+      "transcribe_lyrics": false,
+      "device": "cuda:0",
+      "allow_model_download": false,
+      "chunk_seconds": 30,
+      "precision": "4bit",
+      "reanalyze": 0,
+      "analysis_profile": "Detailed music",
+      "structure": "auto",
+      "coverage_mode": "full",
+      "beat_device": "cpu",
+      "analysis_timeout_seconds": 3600,
+      "audio": [
+        "68",
+        0
+      ]
+    },
+    "class_type": "MusicCanvasAnalyze",
+    "_meta": {
+      "title": "Analyze the selected video range"
+    }
+  },
+  "41": {
+    "inputs": {
+      "exclusions": "captions, logos, lip-sync, flashing, rapid cuts",
+      "profile": "social_preview",
+      "concept_index": 0,
+      "lyrics_approved": false,
+      "temperature": 0.6,
+      "seed": 878672088,
+      "max_tokens": 4096,
+      "regenerate": 0,
+      "directing_approach": "none",
+      "animation_medium": "none",
+      "connection": [
+        "50",
+        0
+      ],
+      "analysis_json": [
+        "37",
+        0
+      ],
+      "artist_direction": [
+        "37",
+        1
+      ],
+      "duration_seconds": [
+        "68",
+        1
+      ]
+    },
+    "class_type": "MusicCanvasOllamaDirector",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Ollama Director"
+    }
+  },
+  "48": {
+    "inputs": {
+      "connection": [
+        "50",
+        0
+      ],
+      "text": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "MusicCanvasOllamaRelease",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Unload Ollama Before Video"
+    }
+  },
+  "50": {
+    "inputs": {
+      "model": "ornith-1.5:35b",
+      "base_url": "http://127.0.0.1:11434",
+      "device": "GPU",
+      "context_length": 8192
+    },
+    "class_type": "MusicCanvasOllamaModel",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Ollama Model"
+    }
+  },
+  "55": {
+    "inputs": {
+      "lora_name": "minimax_h3_dmd_ref2va_8step_turbo_pruned.safetensors",
+      "strength_model": 0.8,
+      "model": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "56": {
+    "inputs": {
+      "lora_name": "better_motion_h3_lora_v1_500.safetensors",
+      "strength_model": 0.74,
+      "model": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "62": {
+    "inputs": {
+      "run_name": "music_canvas_sequential_Good",
+      "steps": 8,
+      "seed": 42,
+      "resume": true,
+      "model": [
+        "56",
+        0
+      ],
+      "clip": [
+        "4",
+        0
+      ],
+      "vae": [
+        "6",
+        0
+      ],
+      "audio_vae": [
+        "7",
+        0
+      ],
+      "audio": [
+        "68",
+        0
+      ],
+      "prompt": [
+        "48",
+        0
+      ],
+      "segment_seconds": [
+        "68",
+        1
+      ],
+      "width": [
+        "36",
+        0
+      ],
+      "height": [
+        "36",
+        1
+      ],
+      "scene_prompts_json": [
+        "70",
+        0
+      ],
+      "timeline_json": [
+        "70",
+        1
+      ]
+    },
+    "class_type": "MusicCanvasSequential",
+    "_meta": {
+      "title": "Render selected range \u2014 sequential H3 segments"
+    }
+  },
+  "63": {
+    "inputs": {
+      "source": [
+        "62",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Final full-song video path"
+    }
+  },
+  "64": {
+    "inputs": {
+      "source": [
+        "62",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Segments and resume report"
+    }
+  },
+  "65": {
+    "inputs": {
+      "analysis_json": [
+        "37",
+        0
+      ],
+      "prompt": [
+        "48",
+        0
+      ],
+      "brief_json": [
+        "41",
+        1
+      ],
+      "concepts_json": [
+        "41",
+        2
+      ],
+      "report_json": [
+        "41",
+        3
+      ],
+      "timeline_json": [
+        "70",
+        1
+      ],
+      "story_plan_json": [
+        "76",
+        0
+      ],
+      "story_report_json": [
+        "76",
+        2
+      ]
+    },
+    "class_type": "MusicCanvasSave",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Save Analysis and Prompt"
+    }
+  },
+  "68": {
+    "inputs": {
+      "start_seconds": 0,
+      "total_seconds": 60,
+      "segment_seconds": 15,
+      "audio": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "MusicCanvasSequenceTiming",
+    "_meta": {
+      "title": "VIDEO RANGE \u2014 total seconds / per-scene seconds"
+    }
+  },
+  "69": {
+    "inputs": {
+      "filename_prefix": "music_canvas/examples/music_canvas_sequential_Good/final",
+      "format": "auto",
+      "codec": "auto",
+      "video": [
+        "62",
+        2
+      ],
+      "format.codec": "auto"
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "FINAL VIDEO \u2014 preview and export"
+    }
+  },
+  "70": {
+    "inputs": {
+      "lyrics_approved": false,
+      "temperature": 0.6,
+      "seed": 1804574875,
+      "max_tokens": 4094,
+      "regenerate": 0,
+      "batch_size": 2,
+      "connection": [
+        "50",
+        0
+      ],
+      "analysis_json": [
+        "37",
+        0
+      ],
+      "base_brief_json": [
+        "41",
+        1
+      ],
+      "base_prompt": [
+        "48",
+        0
+      ],
+      "total_seconds": [
+        "68",
+        2
+      ],
+      "segment_seconds": [
+        "68",
+        1
+      ],
+      "story_plan_json": [
+        "76",
+        0
+      ]
+    },
+    "class_type": "MusicCanvasOllamaTimeline",
+    "_meta": {
+      "title": "DIRECT THE EDITED STORY \u2014 H3 shots + continuity review"
+    }
+  },
+  "71": {
+    "inputs": {
+      "source": [
+        "70",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "FULL FILM \u2014 storyboard and timing"
+    }
+  },
+  "72": {
+    "inputs": {
+      "source": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "73": {
+    "inputs": {
+      "source": [
+        "41",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "74": {
+    "inputs": {
+      "source": [
+        "41",
+        2
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "75": {
+    "inputs": {
+      "source": [
+        "41",
+        3
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "76": {
+    "inputs": {
+      "lyrics_approved": false,
+      "temperature": 0.5,
+      "seed": 69996894,
+      "max_tokens": 4096,
+      "regenerate": 0,
+      "batch_size": 2,
+      "editor_revisions": 2,
+      "connection": [
+        "50",
+        0
+      ],
+      "analysis_json": [
+        "37",
+        0
+      ],
+      "base_brief_json": [
+        "41",
+        1
+      ],
+      "total_seconds": [
+        "68",
+        2
+      ],
+      "segment_seconds": [
+        "68",
+        1
+      ]
+    },
+    "class_type": "MusicCanvasOllamaStoryPlanner",
+    "_meta": {
+      "title": "STORY PLANNER + EDITOR \u2014 new events and lasting consequences"
+    }
+  },
+  "77": {
+    "inputs": {
+      "source": [
+        "76",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "EDITED STORY \u2014 events, consequences and next steps"
+    }
+  },
+  "78": {
+    "inputs": {
+      "source": [
+        "76",
+        2
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "STORY EDITOR \u2014 review and revision report"
+    }
+  },
+  "83": {
+    "inputs": {
+      "source": [
+        "37",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  },
+  "84": {
+    "inputs": {
+      "source": [
+        "37",
+        1
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Preview as Text"
+    }
+  }
+}

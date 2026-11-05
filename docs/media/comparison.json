@@ -1,0 +1,21 @@
+{
+  "description": "Same 15-second song excerpt, two existing Music Canvas visual directions",
+  "track_credit": "Herbert & Momoko — Need to Run",
+  "song_excerpt_start_seconds": 30.0,
+  "song_excerpt_end_seconds": 45.0,
+  "duration_seconds": 15.0,
+  "width": 688,
+  "height": 1040,
+  "fps": 24,
+  "render_seed": 42,
+  "directions": [
+    {"video": "comparison-a.mp4", "preview": "comparison-a.gif", "concept_index": 2, "director_seed": 1692782571},
+    {"video": "comparison-b.mp4", "preview": "comparison-b.gif", "concept_index": 1, "director_seed": 1692782573}
+  ],
+  "generated_for_this_comparison": false,
+  "shots_rearranged": false,
+  "shared_encoded_audio": true,
+  "workflow_and_prompt_metadata_removed": true,
+  "media_covered_by_project_mit_license": false,
+  "soundtrack_publication_rights_independently_verified": false
+}

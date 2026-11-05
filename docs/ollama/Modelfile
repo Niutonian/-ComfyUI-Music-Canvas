@@ -1,0 +1,3 @@
+# Download the pinned GGUF from model.json beside this file.
+FROM ./Ornith-1.5-35B-Q4_K_M.gguf
+PARAMETER num_ctx 8192
