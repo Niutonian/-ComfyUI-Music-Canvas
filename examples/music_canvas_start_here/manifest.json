@@ -29,7 +29,9 @@
         "MusicCanvasSequenceTiming",
         "MusicCanvasSequential",
         "MusicCanvasStoryHelper"
-      ]
+      ],
+      "git_url": "https://github.com/Niutonian/-ComfyUI-Music-Canvas.git",
+      "commit": "268d2489e2d9ce08cb8fd05e095a13939efb2774"
     }
   ],
   "models": [
@@ -230,11 +232,6 @@
       "module": "ollama",
       "reason": "Local Ollama with Ornith 1.5 9B",
       "help": "Install the Ollama model described in the Music Canvas README."
-    },
-    {
-      "module": "music_canvas_source",
-      "reason": "Current Music Canvas source",
-      "help": "Install this version of Music Canvas before importing the starter."
     }
   ]
 }
