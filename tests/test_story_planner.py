@@ -44,7 +44,8 @@ class StoryPlanning(unittest.TestCase):
             corrections=[]
             def api(url,endpoint,request,**kwargs):
                 user=json.loads(request['messages'][1]['content'])
-                if 'review_scenes' in user:
+                if 'world_contract' in user:value=dict(accepted=True,issues=[])
+                elif 'review_scenes' in user:
                     bad=user['review_scenes'][0]['event'].startswith('Only begins')
                     value=dict(accepted=not bad,issues=[dict(index=0,code='contract_mismatch',feedback='Complete the arrival in this scene, then show the resting boat.')] if bad else [])
                 elif 'slots' in user:
@@ -119,7 +120,8 @@ class StoryPlanning(unittest.TestCase):
             calls=[]; released=[]
             def api(url,endpoint,request,**kwargs):
                 calls.append(request); user=json.loads(request['messages'][1]['content'])
-                if 'review_scenes' in user:
+                if 'world_contract' in user:value=dict(accepted=True,issues=[])
+                elif 'review_scenes' in user:
                     bad=any(s['index']==1 and 'repeats departure' in s['event'] for s in user['review_scenes'])
                     value=dict(accepted=not bad,issues=[dict(index=1,code='repetition',feedback='The boat already departed. Reveal a new passage instead.')] if bad else [])
                 elif 'slots' in user:
@@ -130,16 +132,23 @@ class StoryPlanning(unittest.TestCase):
                 else:
                     value=global_plan(); value.pop('scene_count')
                     keys=set(request['format']['properties'])
+                    if 'inspired_action' in keys:value['inspired_action']='The boat rocks through a steady double accent, timed like a marching cadence.'
                     value={k:v for k,v in value.items() if k in keys}
                 return {'message':{'content':json.dumps(value)},'done_reason':'stop'}
             conn=dict(base_url='http://127.0.0.1:11434',model='local:9b',device='GPU',context_length=8192)
+            inspiration,=story.MusicCanvasStoryHelper().provide('  Red Army 1940 March  ')
             options=dict(connection=conn,analysis_json='{"summary":"Soft ambient textures","analysis_id":"audio-a"}',
                 base_brief_json=json.dumps({'concept':CONCEPT}),total_seconds=60.,segment_seconds=15.,lyrics_approved=False,
-                temperature=.6,seed=42,max_tokens=4096,regenerate=0,batch_size=2,editor_revisions=2)
+                temperature=.6,seed=42,max_tokens=4096,regenerate=0,batch_size=2,editor_revisions=2,story_inspiration=inspiration)
             with patch.dict(sys.modules,{'folder_paths':folders,'comfy':comfy,'comfy.model_management':mm,'comfy.utils':utils}),patch.object(story.ollama,'models',return_value=[dict(name='local:9b',digest='revision')]),patch.object(story.ollama,'api',side_effect=api),patch.object(story.ollama,'release',side_effect=lambda *args:released.append(args) or {'verified_absent':True}):
                 first=story.MusicCanvasOllamaStoryPlanner().plan(**options)
                 count=len(calls); second=story.MusicCanvasOllamaStoryPlanner().plan(**options)
             value=json.loads(first[0]); self.assertNotIn('repeats departure',value['scenes'][1]['event'])
+            self.assertEqual(value['story_inspiration']['reference'],'Red Army 1940 March')
+            self.assertIn('marching cadence',value['inspired_action'])
+            world_request=next(json.loads(r['messages'][1]['content']) for r in calls if 'initial_facts' in r['format']['properties'])
+            self.assertEqual(world_request['chosen_concept']['story_inspiration'],value['story_inspiration'])
+            self.assertNotIn(inspiration,json.dumps(world_request['musical_evidence']))
             self.assertEqual(json.loads(first[2])['editor_revisions'],1)
             self.assertEqual(json.loads(second[2])['requests'],0); self.assertEqual(len(calls),count)
             self.assertEqual(first[:2],second[:2]); self.assertEqual(len(released),2)
@@ -147,6 +156,7 @@ class StoryPlanning(unittest.TestCase):
             self.assertEqual([u['slots'][0]['index'] for u in revision_calls],[1])
             self.assertNotIn('previous_version',revision_calls[0])
             self.assertNotIn('chapters',revision_calls[0]['film'])
+            self.assertEqual(revision_calls[0]['film']['story_inspiration'],value['story_inspiration'])
             self.assertNotIn(1,[s['index'] for s in revision_calls[0]['history']['upcoming_outline']])
 
     def test_expanded_shot_editor_corrects_visible_reset_and_keeps_other_scene(self):
@@ -168,6 +178,38 @@ class StoryPlanning(unittest.TestCase):
         self.assertEqual(revisions,1); self.assertEqual(result['scenes'][0],kept)
         self.assertNotIn('departs again',result['scenes'][1]['shots'][0]['description'])
         self.assertTrue(reviews[-1]['accepted'])
+
+    def test_shot_adjudication_can_accept_compatible_wording_but_not_a_real_reset(self):
+        slots=timeline.timeline_plan(15,15); world=global_plan(1)
+        planned=story.prepare_events({'scenes':events(slots,1)},slots,world)['scenes']
+        full=dict(**world,scenes=[{**s,**v} for s,v in zip(slots,planned)],max_editor_revisions=0)
+        value=timeline.prepare_story_scenes({'scenes':scenes_for(slots)},slots,None,{},full)
+        for accept in (True,False):
+            def request(stage,user,schema,validator,prepare=None,**kwargs):
+                self.assertEqual(user['editable_fields'],['shots'])
+                self.assertNotIn('upcoming_outline',user['history'])
+                self.assertEqual(user['review_scenes'][0]['assigned_event_contract']['index'],0)
+                accepted=accept and stage.startswith('shot_editor_confirm')
+                review=dict(accepted=accepted,issues=[] if accepted else [dict(index=0,code='continuity',feedback='Verify the visible action against the ending.')])
+                validator(review);return review
+            if accept:
+                result,reviews,revisions=timeline.edit_scene_batch(request,world['treatment'],slots,copy.deepcopy(value),full,None,[],{})
+                self.assertEqual(result['scenes'],value['scenes'])
+                self.assertTrue(reviews[-1]['accepted']);self.assertEqual(revisions,0)
+            else:
+                with self.assertRaisesRegex(story.PlanningRepairError,'Shot editor could not resolve'):
+                    timeline.edit_scene_batch(request,world['treatment'],slots,copy.deepcopy(value),full,None,[],{})
+
+    def test_next_scene_event_is_not_spent_in_current_segment_prompt(self):
+        slots=timeline.timeline_plan(30,15); world=global_plan(2)
+        scenes=story.prepare_events({'scenes':events(slots,2)},slots,world)['scenes']
+        scenes=story.link_scene_obligations(scenes,world)
+        full=dict(**world,scenes=[{**slot,**scene} for slot,scene in zip(slots,scenes)])
+        realized=timeline.prepare_story_scenes({'scenes':scenes_for(slots)},slots,None,{},full)
+        first=realized['scenes'][0]
+        self.assertNotEqual(first['transition'],scenes[0]['next_obligation'])
+        self.assertNotIn(scenes[1]['event'],timeline.compile_scene(world['treatment'],first))
+        self.assertNotIn('next_obligation',timeline.shot_contract(scenes[0]))
 
 
 if __name__=='__main__': unittest.main()

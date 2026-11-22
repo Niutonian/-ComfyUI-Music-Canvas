@@ -4,6 +4,8 @@
 /docs/*
 !/examples/
 /examples/*
+!/examples/music_canvas_start_here/
+/examples/music_canvas_start_here/*
 !/share/
 /share/*
 !/tests/
@@ -14,12 +16,6 @@
 /docs/media/*
 !/docs/ollama/
 /docs/ollama/*
-!/examples/music_canvas_14sec_max/
-/examples/music_canvas_14sec_max/*
-!/examples/music_canvas_sequential_Good/
-/examples/music_canvas_sequential_Good/*
-!/examples/music_canvas_simple/
-/examples/music_canvas_simple/*
 !/.gitattributes
 !/.gitignore
 !/LICENSE
@@ -54,21 +50,6 @@
 !/docs/ollama/README.md
 !/docs/ollama/model.json
 !/docs/runtime_validation.json
-!/examples/music_canvas_14sec_max/README.md
-!/examples/music_canvas_14sec_max/manifest.json
-!/examples/music_canvas_14sec_max/readiness.json
-!/examples/music_canvas_14sec_max/workflow.api.json
-!/examples/music_canvas_14sec_max/workflow.json
-!/examples/music_canvas_sequential_Good/README.md
-!/examples/music_canvas_sequential_Good/manifest.json
-!/examples/music_canvas_sequential_Good/readiness.json
-!/examples/music_canvas_sequential_Good/workflow.api.json
-!/examples/music_canvas_sequential_Good/workflow.json
-!/examples/music_canvas_simple/README.md
-!/examples/music_canvas_simple/manifest.json
-!/examples/music_canvas_simple/readiness.json
-!/examples/music_canvas_simple/workflow.api.json
-!/examples/music_canvas_simple/workflow.json
 !/model_identity.py
 !/model_paths.py
 !/nodes.py
@@ -83,9 +64,6 @@
 !/sequential.py
 !/setup_runtime.py
 !/share/README.md
-!/share/music_canvas_14sec_max.zip
-!/share/music_canvas_sequential_Good.zip
-!/share/music_canvas_simple.zip
 !/story_planner.py
 !/tests/test_analysis_cache.py
 !/tests/test_audio_performance.py
@@ -108,6 +86,12 @@
 !/tools/curate_git_index.py
 !/tools/finalize_block_party.py
 !/tools/run_unit_tests.py
+!/examples/music_canvas_start_here/README.md
+!/examples/music_canvas_start_here/manifest.json
+!/examples/music_canvas_start_here/music_canvas_start_here.json
+!/examples/music_canvas_start_here/readiness.json
+!/examples/music_canvas_start_here/workflow.api.json
+!/share/music_canvas_start_here.zip
 !/worker.py
 
 # Defense in depth for configuration, credentials and generated artifacts.

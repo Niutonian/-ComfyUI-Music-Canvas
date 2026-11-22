@@ -18,7 +18,7 @@ def payload_of(data):return json.loads(data['messages'][1]['content'].split('Inp
 def candidate(index,revised=False):
     c={field:f'{field} {index}' for field in director.FIELDS}
     c['title']=f'{"Revised" if revised else "Concept"} {index}'
-    if index==6:c['motion_cycle']='[Shot 1] A rolling shape travels forward. [Shot 2] At 00:05.000 match cut to a new round subject that opens.'
+    if index==6:c['motion_cycle']='[Shot 1] A rolling orange wheel travels right. [Shot 2] At 00:05.000 the camera cuts to an orange sun that continues the wheel’s motion across a painted horizon.'
     if revised:c['subject']=f'new physical subject {index}'
     return c
 
@@ -35,15 +35,16 @@ class FakeOllama:
         p=payload_of(data); props=data['format']['properties']
         if 'approaches' in props:
             choices=props['approaches']['items']['enum']; media=props['media']['items']['enum']
+            count=props['approaches']['minItems']
             value=dict(music_direction='Intimate flowing gestures, soft tactile surfaces and restrained expressive pacing.',
-                approaches=choices*6 if len(choices)==1 else choices[:6],media=[media[i%len(media)] for i in range(6)],
-                premises=[f'A different physical subject performs action number {i} in a distinct setting' for i in range(6)])
+                approaches=choices*count if len(choices)==1 else choices[:count],media=[media[i%len(media)] for i in range(count)],
+                premises=[f'A different physical subject performs action number {i} in a distinct setting' for i in range(count)])
         elif 'concept' in props:
             revised='concept_to_replace' in p
             index=p['concept_index_to_replace'] if revised else len(p['reserved_titles'])+1
             value={'concept':candidate(2 if revised and self.duplicate_revision else index,revised=revised and not self.duplicate_revision)}
             if p['animation_medium_lock']!='none':value['concept']['treatment']=p['animation_medium_lock']+': coherent animation grammar and tactile surfaces.'
-            if p['directing_approach']['name']=='Associative montage':value['concept']['motion_cycle']='[Shot 1] A rolling shape travels forward. [Shot 2] At 00:05.000 match cut to a new round subject that opens.'
+            if p['directing_approach']['name']=='Associative montage':value['concept']['motion_cycle']='[Shot 1] A rolling orange wheel travels right. [Shot 2] At 00:05.000 the camera cuts to an orange sun that continues the wheel’s motion across a painted horizon.'
         else:
             reviews=[]
             for local,c in enumerate(p['concepts'],1):
@@ -59,6 +60,32 @@ class FakeOllama:
 
 
 class DirectorTests(unittest.TestCase):
+    def test_duplicate_title_keeps_distinct_fast_mode_candidate(self):
+        with tempfile.TemporaryDirectory() as root,self.environment(root):
+            api=FakeOllama()
+            def repeated_title(url,endpoint,data=None,**kwargs):
+                response=api(url,endpoint,data,**kwargs)
+                if endpoint=='/api/chat' and 'concept' in data['format']['properties']:
+                    value=json.loads(response['message']['content'])
+                    if value['concept']['title']=='Concept 3':
+                        value['concept']['title']=' concept 1 '
+                        response['message']['content']=json.dumps(value)
+                return response
+            # The fake editor identifies proposals by the number in their titles.
+            def chat(url,endpoint,data=None,**kwargs):
+                if endpoint=='/api/chat' and 'reviews' in data['format']['properties']:
+                    payload=payload_of(data)
+                    for index,concept in enumerate(payload['concepts'],1):
+                        concept['title']=f'Concept {index}'
+                    data={**data,'messages':[data['messages'][0],{'role':'user','content':json.dumps(payload)}]}
+                return repeated_title(url,endpoint,data,**kwargs)
+            with patch.object(director,'api',side_effect=chat):
+                _,_,concepts,report=director.MusicCanvasOllamaDirector().direct(**self.args(director_mode='Fast (3 concepts)'))
+            third=json.loads(concepts)['concepts'][2]
+            self.assertEqual(third['title'],'concept 1 (2)')
+            self.assertEqual(third['subject'],candidate(3)['subject'])
+            self.assertEqual(json.loads(report)['llm_requests'],5)
+
     def environment(self,root):
         mm=types.SimpleNamespace(throw_exception_if_processing_interrupted=lambda:None)
         return patch.dict(sys.modules,{'folder_paths':types.SimpleNamespace(get_user_directory=lambda:root),
@@ -122,6 +149,25 @@ class DirectorTests(unittest.TestCase):
             payloads=[payload_of(d) for e,d in api.calls if e=='/api/chat' and 'concept' in d['format']['properties']]
             self.assertEqual(len(payloads),6)
             self.assertTrue(all(p['animation_medium_lock']==medium and p['directing_approach']['name']==approach for p in payloads))
+
+    def test_fast_mode_reviews_three_concepts_and_reuses_their_pool(self):
+        with tempfile.TemporaryDirectory() as root,self.environment(root):
+            api=FakeOllama()
+            mode='Fast (3 concepts)'
+            analysis=json.dumps(dict(summary='Steady dance pulse',beats=[0,1,2,15],downbeats=[0,2]))
+            with patch.object(director,'api',side_effect=api):
+                node=director.MusicCanvasOllamaDirector()
+                results=node.direct(**self.args(director_mode=mode,analysis_json=analysis))
+                report=json.loads(results[3])
+                self.assertEqual(report['llm_requests'],5)
+                self.assertEqual(len(json.loads(results[2])['concepts']),3)
+                review=next(payload_of(d) for endpoint,d in api.calls if endpoint=='/api/chat' and 'reviews' in d['format']['properties'])
+                self.assertEqual(review['measured_rhythm']['preferred_local_beats'],[0,1,2])
+                selected=node.direct(**self.args(director_mode=mode,analysis_json=analysis,concept_index=3))
+                self.assertEqual(json.loads(selected[3])['llm_requests'],0)
+                self.assertEqual(json.loads(selected[1])['concept']['title'],'Concept 3')
+                with self.assertRaisesRegex(ValueError,'concept_index'):
+                    node.direct(**self.args(director_mode=mode,concept_index=4))
 
     def test_revises_only_rejected_candidate_and_preserves_other_five(self):
         with tempfile.TemporaryDirectory() as root,self.environment(root):

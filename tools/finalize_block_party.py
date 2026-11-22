@@ -1,9 +1,9 @@
-"""Pin this project's published source and rebuild its three native Block Party ZIPs."""
+"""Pin this project's published source and rebuild its native Block Party starter ZIP."""
 import argparse,json,re,sys,urllib.parse,urllib.request,zipfile
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
-NAMES=('music_canvas_simple','music_canvas_sequential_Good','music_canvas_14sec_max')
+NAMES=('music_canvas_start_here',)
 
 def add_release_notes(archive,name):
     """Keep native job members and append self-contained notes to its generated README."""
@@ -16,7 +16,7 @@ def add_release_notes(archive,name):
     notes='\n\n## Music Canvas export notes\n\n'+(ROOT/'examples'/name/'README.md').read_text(encoding='utf-8')
     notes+='\n\nMusic Canvas source: '+source_note+'\n\n'
     notes+='Model rights are separate from this job. MiniMax H3 has a restricted community license, including territorial exclusions. Read https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/LICENSE before downloading or using its weights. Derivative model-card badges do not establish unrestricted rights. No weights or music are bundled. Original Music Canvas source and documentation are MIT-licensed; model terms remain separate.\n\n'
-    notes+='For the analysis examples, install/check an isolated audio candidate with `uv run python setup_runtime.py --install-environment`, explicitly download the pinned MOSS snapshot using the configured Python and `audio_assets.py --models-root <ComfyUI/models>`, and run local Ollama with a compatible model selected in the graph. The `ornith-1.5:35b` name is a local alias: the full repository provides a pinned public GGUF and Modelfile. Block Party does not install that service or import that model for you. The legacy runtime has known advisories, and installing and fully validating the patched candidate remains pending; read SECURITY.md in the source repository.\n'
+    notes+='For the analysis examples, install/check an isolated audio candidate with `uv run python setup_runtime.py --install-environment`, explicitly download the pinned MOSS snapshot using the configured Python and `audio_assets.py --models-root <ComfyUI/models>`, and run local Ollama with a compatible model selected in the graph. The `ornith-1.5:9b` name is a local alias. The main README explains how to install it. Block Party does not install that service or import that model for you. The legacy runtime has known advisories, and installing and fully validating the patched candidate remains pending; read SECURITY.md in the source repository.\n'
     notes+='\n\n## Music Canvas license\n\n'+(ROOT/'LICENSE').read_text(encoding='utf-8')
     temporary=archive.with_suffix('.tmp.zip')
     with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED) as target:

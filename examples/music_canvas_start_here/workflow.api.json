@@ -49,9 +49,9 @@
   },
   "36": {
     "inputs": {
-      "aspect_ratio": "2:3 (Portrait Photo)",
-      "megapixels": 0.3,
-      "multiple": 8
+      "aspect_ratio": "3:2 (Photo)",
+      "megapixels": 0.25,
+      "multiple": 16
     },
     "class_type": "ResolutionSelector",
     "_meta": {
@@ -68,7 +68,7 @@
       "chunk_seconds": 30,
       "precision": "4bit",
       "reanalyze": 0,
-      "analysis_profile": "Detailed music",
+      "analysis_profile": "Quick direction",
       "structure": "auto",
       "coverage_mode": "full",
       "beat_device": "cpu",
@@ -85,16 +85,16 @@
   },
   "41": {
     "inputs": {
-      "exclusions": "captions, logos, lip-sync, flashing, rapid cuts",
       "profile": "social_preview",
       "concept_index": 0,
       "lyrics_approved": false,
       "temperature": 0.6,
-      "seed": 878672088,
+      "seed": 1151319693,
       "max_tokens": 4096,
       "regenerate": 0,
       "directing_approach": "none",
       "animation_medium": "none",
+      "director_mode": "Fast (3 concepts)",
       "connection": [
         "50",
         0
@@ -104,8 +104,12 @@
         0
       ],
       "artist_direction": [
-        "37",
-        1
+        "87",
+        0
+      ],
+      "exclusions": [
+        "89",
+        0
       ],
       "duration_seconds": [
         "68",
@@ -135,7 +139,7 @@
   },
   "50": {
     "inputs": {
-      "model": "ornith-1.5:35b",
+      "model": "ornith-1.5:9b",
       "base_url": "http://127.0.0.1:11434",
       "device": "GPU",
       "context_length": 8192
@@ -175,10 +179,11 @@
   },
   "62": {
     "inputs": {
-      "run_name": "music_canvas_sequential_Good",
+      "run_name": "music_canvas_start_here",
       "steps": 8,
       "seed": 42,
       "resume": true,
+      "visual_continuity": true,
       "model": [
         "56",
         0
@@ -296,8 +301,8 @@
   "68": {
     "inputs": {
       "start_seconds": 0,
-      "total_seconds": 60,
-      "segment_seconds": 15,
+      "total_seconds": 12,
+      "segment_seconds": 6,
       "audio": [
         "20",
         0
@@ -310,7 +315,7 @@
   },
   "69": {
     "inputs": {
-      "filename_prefix": "music_canvas/examples/music_canvas_sequential_Good/final",
+      "filename_prefix": "music_canvas/sequential_exports/final",
       "format": "auto",
       "codec": "auto",
       "video": [
@@ -328,7 +333,7 @@
     "inputs": {
       "lyrics_approved": false,
       "temperature": 0.6,
-      "seed": 1804574875,
+      "seed": 1151319693,
       "max_tokens": 4094,
       "regenerate": 0,
       "batch_size": 2,
@@ -430,7 +435,7 @@
     "inputs": {
       "lyrics_approved": false,
       "temperature": 0.5,
-      "seed": 69996894,
+      "seed": 1151319693,
       "max_tokens": 4096,
       "regenerate": 0,
       "batch_size": 2,
@@ -507,6 +512,24 @@
     "class_type": "PreviewAny",
     "_meta": {
       "title": "Preview as Text"
+    }
+  },
+  "87": {
+    "inputs": {
+      "inspiration": ""
+    },
+    "class_type": "MusicCanvasStoryHelper",
+    "_meta": {
+      "title": "Music Canvas \u00b7 Story Helper"
+    }
+  },
+  "89": {
+    "inputs": {
+      "value": "captions, logos, lip-sync, flashing, rapid cuts"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Text (Multiline)"
     }
   }
 }

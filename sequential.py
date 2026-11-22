@@ -20,6 +20,76 @@ def plan_segments(samples, rate, seconds, fps=24):
             for i,start in enumerate(range(0,frames,per))]
 
 
+def continuity_studio_timeline(timeline_json, samples, rate, seed, visual_memory=True, audio_file=None):
+    """Convert Music Canvas timing to Continuity Studio's external Timeline v1."""
+    source=json.loads(timeline_json)
+    plan=plan_segments(samples,rate,float(source['segment_seconds']))
+    _,prompts=timeline_prompts(timeline_json,'',plan)
+    boxes=[]
+    for slot,prompt in zip(plan,prompts):
+        index=slot['index']
+        boxes.append(dict(id=f'canvas-{index+1:04d}',frames=slot['frames'],exact=True,
+            seed=(seed+index)%2**64,cut=index>0,memory='scene' if visual_memory and index>0 else 'off',
+            prompt='Use @audio1 as the music timing reference. '+prompt))
+    lane=dict(slot='audio1',start=0,source_start=0,duration=samples/rate,
+              source_duration=samples/rate,description='Selected Music Canvas audio',layer='music')
+    if audio_file is not None:
+        lane.update(file=audio_file,in_full_video=True)
+    return dict(version=1,prompt='',boxes=boxes,audio_clips=[lane])
+
+
+class MusicCanvasContinuityExport:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {'required':dict(timeline_json=('STRING',{'forceInput':True}),audio=('AUDIO',),
+            seed=('INT',{'default':42,'min':0,'max':2**64-1}),
+            visual_memory=('BOOLEAN',{'default':True}))}
+
+    RETURN_TYPES=('STRING','STRING')
+    RETURN_NAMES=('studio_timeline_json','saved_timeline_path')
+    FUNCTION='export'
+    CATEGORY='Music Canvas'
+    OUTPUT_NODE=True
+
+    def export(self,timeline_json,audio,seed,visual_memory):
+        import tempfile
+        import folder_paths
+        import soundfile as sf
+        from comfy.model_management import throw_exception_if_processing_interrupted
+
+        waveform=audio['waveform'].detach().cpu()
+        rate=int(audio['sample_rate'])
+        if waveform.ndim!=3 or waveform.shape[0]!=1 or waveform.shape[1] not in (1,2):
+            raise ValueError('Continuity Studio export needs one mono or stereo audio track')
+        samples=waveform.shape[-1]
+        timeline=continuity_studio_timeline(timeline_json,samples,rate,seed,visual_memory)
+        fingerprint=hashlib.sha256(json.dumps([timeline,rate,waveform.shape[1]],sort_keys=True).encode())
+        for start in range(0,samples,rate*30):
+            throw_exception_if_processing_interrupted()
+            fingerprint.update(waveform[0,:,start:start+rate*30].contiguous().numpy().tobytes())
+        subfolder='music_canvas/continuity_studio/'+fingerprint.hexdigest()
+        descriptor=dict(type='output',subfolder=subfolder,filename='source_audio.wav')
+        timeline['audio_clips'][0].update(file=descriptor,in_full_video=True)
+        folder=Path(folder_paths.get_output_directory())/subfolder
+        folder.mkdir(parents=True,exist_ok=True)
+        audio_path=folder/'source_audio.wav'
+        if not audio_path.is_file():
+            with tempfile.NamedTemporaryFile(dir=folder,suffix='.wav',delete=False) as handle:
+                temporary=Path(handle.name)
+            try:
+                with sf.SoundFile(str(temporary),mode='w',samplerate=rate,
+                                  channels=waveform.shape[1],subtype='FLOAT') as stream:
+                    for start in range(0,samples,rate*30):
+                        throw_exception_if_processing_interrupted()
+                        stream.write(waveform[0,:,start:start+rate*30].T.contiguous().numpy())
+                temporary.replace(audio_path)
+            finally:
+                temporary.unlink(missing_ok=True)
+        path=folder/'studio_timeline.json'
+        if not path.is_file():atomic_json(path,timeline)
+        return {'ui':{'text':[str(path)]},'result':(json.dumps(timeline,ensure_ascii=False),str(path))}
+
+
 def choose_prompts(prompt, scenes, count):
     values=json.loads(scenes) if scenes.strip() else [prompt]
     if not isinstance(values,list) or not values or any(not isinstance(p,str) or not p.strip() for p in values):
@@ -121,11 +191,33 @@ def encode_frames(images,path,count):
                 process.wait()
 
 
-def render_segment(model,clip,vae,audio_vae,audio,prompt,segment,width,height,steps,seed):
+def reference_prompt(prompt,scene=None):
+    role=('<Picture 1> is a design reference for the recurring subjects, materials and animation medium. '
+          'Use the shot directions for the current setting, pose, framing, lighting and action.')
+    if isinstance(scene,dict) and all(isinstance(scene.get(key),str) and scene[key].strip()
+                                      for key in ('start_state','narrative_beat')):
+        opening=scene['start_state'].strip().rstrip('.')
+        event=scene['narrative_beat'].strip().rstrip('.')
+        direction=(f'[Shot 1] Cut directly into the current state: {opening}. '
+                   f'The new event for this segment is: {event}. '
+                   'Begin with visible movement that advances this event. ')
+        marker='[Shot 1]'
+        if marker in prompt:
+            prompt=prompt.replace('Opening state: '+opening+'. ','',1)
+            return role+'\n'+prompt.replace(marker,direction,1)
+    return role+' Begin with the new action and framing described for this segment.\n'+prompt
+
+
+def render_segment(model,clip,vae,audio_vae,audio,prompt,segment,width,height,steps,seed,visual_reference=None,scene=None):
     import comfy.model_management as mm
     # Conditioning must be encoded before GPU sampling; no HTTP calls to our own queue.
-    positive,latent=invoke('MiniMaxH3ImageToVideo',clip=clip,vae=vae,prompt=prompt,
-        width=width,height=height,length=max(5,segment['model_frames']))
+    length=max(5,segment['model_frames'])
+    if visual_reference is None:
+        positive,latent=invoke('MiniMaxH3ImageToVideo',clip=clip,vae=vae,prompt=prompt,
+            width=width,height=height,length=length)
+    else:
+        positive,latent=invoke('MiniMaxH3ReferenceToVideo',clip=clip,vae=vae,prompt=reference_prompt(prompt,scene),
+            width=width,height=height,length=length,ref_images={'ref_image_1':visual_reference})
     positive=invoke('MiniMaxH3AddGuide',positive=positive,latent=latent,frame_idx=0,audio_vae=audio_vae,audio=audio)[0]
     shifted=invoke('MiniMaxH3SigmaShift',model=model,shift_video=12.,shift_audio=3.)[0]
     guider=invoke('BasicGuider',model=shifted,conditioning=positive)[0]
@@ -140,6 +232,23 @@ def render_segment(model,clip,vae,audio_vae,audio,prompt,segment,width,height,st
     return invoke('VAEDecode',samples=video,vae=vae)[0]
 
 
+def save_visual_reference(images,count,path):
+    import torch
+    from PIL import Image
+    frame=images[count//4,:,:,:3].clamp(0,1).mul(255).round().to(torch.uint8).cpu()
+    temporary=path.with_suffix('.partial.png')
+    Image.fromarray(frame.numpy()).save(temporary)
+    temporary.replace(path)
+
+
+def load_visual_reference(path):
+    import numpy as np
+    import torch
+    from PIL import Image
+    with Image.open(path) as image:
+        return torch.from_numpy(np.array(image.convert('RGB'),dtype=np.float32)).div_(255).unsqueeze(0)
+
+
 class MusicCanvasSequential:
     @classmethod
     def INPUT_TYPES(cls):
@@ -149,7 +258,8 @@ class MusicCanvasSequential:
             width=('INT',{'default':432,'min':256,'max':2048,'step':16}),height=('INT',{'default':768,'min':256,'max':2048,'step':16}),
             steps=('INT',{'default':20,'min':1,'max':100}),seed=('INT',{'default':42,'min':0,'max':0xffffffffffffffff}),
             resume=('BOOLEAN',{'default':True,'tooltip':'Reuse the latest matching checkpoint for this project. Disable to create a fresh revision even with identical inputs.'})),
-            'optional':dict(scene_prompts_json=('STRING',{'multiline':True,'default':''}),timeline_json=('STRING',{'forceInput':True})),
+            'optional':dict(scene_prompts_json=('STRING',{'multiline':True,'default':''}),timeline_json=('STRING',{'forceInput':True}),
+                visual_continuity=('BOOLEAN',{'default':False,'tooltip':'Use one image from the first segment as an H3 visual reference for all later segments.'})),
             'hidden':dict(prompt_graph='PROMPT',unique_id='UNIQUE_ID')}
 
     RETURN_TYPES=('STRING','STRING','VIDEO')
@@ -160,7 +270,7 @@ class MusicCanvasSequential:
     @classmethod
     def IS_CHANGED(cls,**kwargs): return float('nan')
 
-    def generate(self,model,clip,vae,audio_vae,audio,prompt,run_name,segment_seconds,width,height,steps,seed,resume,scene_prompts_json='',prompt_graph=None,unique_id=None,timeline_json=''):
+    def generate(self,model,clip,vae,audio_vae,audio,prompt,run_name,segment_seconds,width,height,steps,seed,resume,scene_prompts_json='',prompt_graph=None,unique_id=None,timeline_json='',visual_continuity=False):
         import torch
         import folder_paths
         if not shutil.which('ffmpeg'): raise RuntimeError('FFmpeg must be available on PATH')
@@ -190,6 +300,11 @@ class MusicCanvasSequential:
         connected_models=model_identity(prompt_graph,unique_id,model_folders)
         config=dict(version=2,models=connected_models,audio_sha256=digest.hexdigest(),rate=rate,samples=waveform.shape[-1],
             channels=waveform.shape[1],segment_seconds=segment_seconds,width=width,height=height,steps=steps,seed=seed,prompts=prompts)
+        if visual_continuity and len(plan)>1:
+            config['visual_reference']='first_segment_quarter_frame_handoff_v2'
+            if timeline is not None:
+                config['reference_handoffs']=[reference_prompt(segment['prompt'],segment.get('scene'))
+                    for segment in timeline['segments'][1:]]
         key=hashlib.sha256(json.dumps(config,sort_keys=True).encode()).hexdigest()
         from .run_folders import select_run
         base=Path(folder_paths.get_output_directory())/'music_canvas'/'sequential'
@@ -214,6 +329,10 @@ class MusicCanvasSequential:
         manifest=root/'manifest.json'
         if timeline is not None: atomic_json(root/'animation_timeline.json',timeline)
         bar=ProgressBar(len(plan))
+        use_reference=bool(state['config'].get('visual_reference'))
+        reference_path=root/'visual_reference.png'
+        reference=None
+        reference_digest=None
         try:
             release_owned()
             state.pop('error',None)
@@ -223,20 +342,33 @@ class MusicCanvasSequential:
                 path=root/f'segment_{index:06d}.mp4'
                 previous=state['segments'].get(str(index))
                 if previous and path.is_file() and file_digest(path)==previous['sha256']:
-                    bar.update_absolute(index+1)
-                    continue
+                    if use_reference and index==0:
+                        if reference_path.is_file() and file_digest(reference_path)==previous.get('visual_reference_sha256'):
+                            reference=load_visual_reference(reference_path)
+                            reference_digest=previous['visual_reference_sha256']
+                    if not use_reference or (reference_digest and previous.get('visual_reference_sha256')==reference_digest):
+                        bar.update_absolute(index+1)
+                        continue
                 begin=round(item['start_seconds']*rate)
                 # Give the guide at least the native generation duration for short tails.
                 end=min(waveform.shape[-1],begin+math.ceil(max(5,item['model_frames'])/24*rate))
                 guide=dict(waveform=waveform[:,:,begin:end].clone(),sample_rate=rate)
                 segment_seed=(seed+index)%2**64
                 print(f'[MusicCanvas Sequential] Segment {index+1}/{len(plan)}, {item["start_seconds"]:.3f}s, seed {segment_seed}',flush=True)
-                images=render_segment(model,clip,vae,audio_vae,guide,prompts[index],item,width,height,steps,segment_seed)
+                scene=timeline['segments'][index].get('scene') if timeline is not None else None
+                images=render_segment(model,clip,vae,audio_vae,guide,prompts[index],item,width,height,steps,segment_seed,
+                    visual_reference=reference,scene=scene)
                 encode_frames(images,path,item['frames'])
+                if use_reference and index==0:
+                    save_visual_reference(images,item['frames'],reference_path)
+                    reference=load_visual_reference(reference_path)
+                    reference_digest=file_digest(reference_path)
                 del images,guide
                 gc.collect()
                 mm.soft_empty_cache()
                 state['segments'][str(index)]={**item,'seed':segment_seed,'file':path.name,'sha256':file_digest(path)}
+                if use_reference:
+                    state['segments'][str(index)]['visual_reference_sha256']=reference_digest
                 state['status']='running'
                 atomic_json(manifest,state)
                 bar.update_absolute(index+1)

@@ -3,15 +3,27 @@
   "label": "Requires manual setup",
   "issues": [
     {
+      "kind": "node",
+      "message": "ComfyUI_LocalMusicCanvas: missing full Git commit pin"
+    },
+    {
+      "kind": "node",
+      "message": "ComfyUI_LocalMusicCanvas: missing or unsupported repository URL"
+    },
+    {
       "kind": "python",
       "message": "Isolated MOSS-Music audio runtime and model snapshot: Run setup_runtime.py --install-environment to build/check a patched candidate; install MOSS assets with its configured Python. Package network access is required; see docs/RUNTIME_UPGRADE.md."
     },
     {
       "kind": "python",
-      "message": "A local Ollama service with ornith-1.5:35b is required: Import the pinned GGUF using docs/ollama/Modelfile; the alias is not assumed to exist in the Ollama registry."
+      "message": "Local Ollama with Ornith 1.5 9B: Install the Ollama model described in the Music Canvas README."
+    },
+    {
+      "kind": "python",
+      "message": "Current Music Canvas source: Install this version of Music Canvas before importing the starter."
     }
   ],
-  "download_bytes": 44815273268,
+  "download_bytes": 45145069360,
   "unknown_sizes": 0,
   "required_inputs": [
     "audio_0 (.wav, .mp3, .flac, .ogg, .m4a, .aac, .opus, .aiff, .aif, .mp4, .webm, .mkv, .mov, .avi, .gif)"

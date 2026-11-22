@@ -1,4 +1,4 @@
-"""Six music-grounded directing options, with independent medium locks."""
+"""Music-grounded directing options with independent medium locks."""
 import copy
 import random
 
@@ -15,28 +15,32 @@ MEDIA=['Hand-drawn or line animation','Painted animation','Stylized 3D animation
        'Cinematic photographic or live-action imagery','Clay or puppet stop-motion',
        'Paper-based animation or collage','Graphic motion design']
 
-SLATE_SYSTEM='''You are a music-film creative director. Choose six promising directing approaches for the supplied song, artist direction and exclusions. Directing approach is storytelling/editing/choreography, independent of animation medium. Return only the requested JSON.
+SLATE_SYSTEM='''You are a music-film creative director. Choose the requested number of approaches for the supplied song, artist direction and exclusions. Directing approach is independent of animation medium. Return only the requested JSON.
 First write music_direction using ONLY pacing, movement dynamics, emotional tension, rhythmic phrasing and surface/texture qualities inferred from the music. Do not prescribe subjects, props, settings, specific materials, palette colours or animation media in that shared brief. Those choices must differ between candidate premises. Keep it under 90 words, as complete sentences. Preserve uncertainty; never invent sound facts, lyrics or exact synchronization. A quiet song can have flowing expressive action and quiet progression.
-When directing_approach is none, choose six DISTINCT approaches from the supplied menu that can fit this music. When locked, repeat that requested approach for all six proposals; explore different stories within it. Write one short specific PREMISE for each approach: physical subject, setting, action and consequence. Vary the subject types and environments; do not recycle one prop, material or location across all six unless explicitly requested. For media, respect an explicit animation_medium lock; otherwise choose compatible media freely, prioritizing music and artist direction. Do not assign permanent styles to concept indices. Recent usage is advisory. Do not force spectacle, dancing or rapid cuts onto incompatible music. A locked artist style still allows different story premises.'''
+When directing_approach is none, choose DISTINCT approaches from the menu that fit this music. Give Performance-led and Choreographed world priority when a clear groove or a request for dance calls for them. When locked, use the requested approach for every proposal. Build each premise around a subject, setting, and visible movement phrase that develops. A new gesture, spatial pattern or interaction can be the entire arc. Leave out backstory and symbols that add no movement. Character journey and Surreal narrative can use a simple visual cause and effect. Vary subjects and environments and respect medium locks. Do not force frantic movement onto quiet music.'''
 
 
-def slate_schema(approach,medium):
+SLATE_SYSTEM+='''
+Give each proposal a different main movement and visible payoff, in addition to a different setting or subject where these are unlocked. Quiet tracks can shape precise gestures, tactile interactions or changing group spacing. Do not default to a lone figure drifting in a dim room and ending in stillness. If artist_direction names a subject or setting, interpret it visibly. A style-only reference guides the look while the action remains open to invention.'''
+
+
+def slate_schema(approach,medium,count=6):
     return dict(type='object',additionalProperties=False,required=['music_direction','approaches','media','premises'],properties=dict(
         music_direction=dict(type='string',minLength=1,maxLength=700),
-        approaches=dict(type='array',minItems=6,maxItems=6,items=dict(type='string',enum=[approach] if approach!='none' else list(APPROACHES))),
-        media=dict(type='array',minItems=6,maxItems=6,items=dict(type='string',enum=[medium] if medium!='none' else MEDIA)),
-        premises=dict(type='array',minItems=6,maxItems=6,items=dict(type='string',minLength=1,maxLength=240))))
+        approaches=dict(type='array',minItems=count,maxItems=count,items=dict(type='string',enum=[approach] if approach!='none' else list(APPROACHES))),
+        media=dict(type='array',minItems=count,maxItems=count,items=dict(type='string',enum=[medium] if medium!='none' else MEDIA)),
+        premises=dict(type='array',minItems=count,maxItems=count,items=dict(type='string',minLength=1,maxLength=240))))
 
 
-def validate_slate(value,approach,medium):
-    if not isinstance(value,dict) or set(value)!={'music_direction','approaches','media','premises'}:raise ValueError('Return music_direction, six approaches, six media and six premises')
+def validate_slate(value,approach,medium,count=6):
+    if not isinstance(value,dict) or set(value)!={'music_direction','approaches','media','premises'}:raise ValueError(f'Return music_direction and {count} each of approaches, media and premises')
     if not isinstance(value['music_direction'],str) or not value['music_direction'].strip():raise ValueError('Describe the music-informed visual direction')
     for key,allowed in [('approaches',[approach] if approach!='none' else APPROACHES),('media',[medium] if medium!='none' else MEDIA)]:
         items=value[key]
-        if not isinstance(items,list) or len(items)!=6 or any(x not in allowed for x in items):raise ValueError('Use six allowed '+key+' values and respect explicit locks')
-    if approach=='none' and len(set(value['approaches']))!=6:raise ValueError('Choose six different directing approaches; medium is a separate dimension')
-    if not isinstance(value['premises'],list) or len(value['premises'])!=6 or any(not isinstance(p,str) or len(p.split())<5 for p in value['premises']):raise ValueError('Give each candidate a specific subject, setting, action and consequence')
-    if len({p.casefold().strip() for p in value['premises']})!=6:raise ValueError('Write six different premises within the requested locks')
+        if not isinstance(items,list) or len(items)!=count or any(x not in allowed for x in items):raise ValueError(f'Use {count} allowed {key} values and respect explicit locks')
+    if approach=='none' and len(set(value['approaches']))!=count:raise ValueError(f'Choose {count} different directing approaches')
+    if not isinstance(value['premises'],list) or len(value['premises'])!=count or any(not isinstance(p,str) or len(p.split())<5 for p in value['premises']):raise ValueError('Give each candidate a specific subject, setting, action and consequence')
+    if len({p.casefold().strip() for p in value['premises']})!=count:raise ValueError(f'Write {count} different premises within the requested locks')
     return value
 
 
@@ -51,7 +55,11 @@ def enriched_review_schema(base):
 REVIEW_EXTRA='''
 Evaluate the ACTUAL subject, action, motion_cycle, camera and treatment, not merely a persuasive rationale. direction_fit is strong only when they follow the assigned directing approach, the music_direction's energy/groove/emotional character, artist intent and explicit medium lock. Musical fit always precedes novelty.
 Check the concrete requirements in the assigned description and premise. A montage must show at least two distinct images connected through actual cuts; a choreographed world needs interacting environmental elements; a character journey needs a goal and action changing its situation. Do not mark a generic single-figure glide strong merely because its label names one of these approaches. In direction_reason cite the actual actions or shot transitions that demonstrate the approach. Reusing one setting/material across peers without an artist lock should not make all premises automatically fresh.
-development_fit is strong when the premise can support evolving developments in a longer film and its proposed actions/cuts fit this short clip duration. Do not require an entire long-film plot inside the excerpt. A camera zoom over a frozen object or the same action repeatedly reset is weak. Quiet observation and abstract transformations are valid when they reveal new information or consequences. For sub-three-second tests one continuous visible action is appropriate. Reject substantially duplicated peer premises. Explain direction_reason concisely; when either fit is weak give a specific repair in feedback.'''
+development_fit is strong when the movement can evolve over a longer film and the proposed actions and cuts fit this excerpt. Changes of footwork, weight, shape or formation can carry the entire clip. A camera zoom over a frozen object, vague promises of rhythm, or a repeated reset is weak. When measured rhythm is supplied, look for a few readable physical accents and movement between them. Quiet observation and restrained motion are valid when they express the music. For sub-three-second tests one continuous action is appropriate. Explain any repair in terms of a visible action, not added plot.'''
+
+
+REVIEW_EXTRA+='''
+Compare what each subject actually does and where that action leads. A different prop, title or medium is insufficient if the main movement and payoff recur. Look for a visible interpretation of a specific artist reference in the staging or action. A held ending is valid when it follows from this concept's action.'''
 
 
 def validate_enriched_review(value,cues,base_validator,base_fields):
@@ -81,10 +89,10 @@ def automatic_choice(reviews,directions,counts,seed,regenerate,key):
     return chosen,[dict(index=r['index'],weight=round(w,6)) for r,w in zip(accepted,weights)]
 
 
-def build_pool(ask,user,context,recent,cues,approach,medium,counts,validate,concept_schema,base_review_schema,base_review_system,base_validator,single_system,revision_system,max_tokens):
+def build_pool(ask,user,context,recent,cues,approach,medium,counts,validate,concept_schema,base_review_schema,base_review_system,base_validator,single_system,revision_system,max_tokens,count=6):
     menu=list(APPROACHES); random.Random(user['generation_seed']).shuffle(menu)
-    slate=ask('directing_slate',SLATE_SYSTEM,{**user,'task':'Choose six music-compatible directing approaches and a visual music brief. Respect the category locks.',
-        'approach_menu':{name:APPROACHES[name] for name in menu},'recent_approach_counts':counts},slate_schema(approach,medium),lambda v:validate_slate(v,approach,medium),min(max_tokens,1536))
+    slate=ask('directing_slate',SLATE_SYSTEM,{**user,'task':f'Choose {count} music-compatible directing approaches and a visual music brief. Respect the category locks.',
+        'approach_menu':{name:APPROACHES[name] for name in menu},'recent_approach_counts':counts},slate_schema(approach,medium,count),lambda v:validate_slate(v,approach,medium,count),min(max_tokens,1536))
     directions=[dict(name=name,description=APPROACHES[name],premise=slate['premises'][i]) for i,name in enumerate(slate['approaches'])]
     exploration={k:v for k,v in context.items() if k not in ('recent_visual_choices','recent_subject_counts')}
     value={'concepts':[]}; revisions=[]; failures=[]; reviews=[]
@@ -97,7 +105,7 @@ def build_pool(ask,user,context,recent,cues,approach,medium,counts,validate,conc
         import copy
         schema=copy.deepcopy(single_schema)
         motion=schema['properties']['concept']['properties']['motion_cycle']
-        motion['description']='Start with [Shot 1], describe its moving image, then write match cut, then [Shot 2] and a distinct moving image. Keep both shots inside the requested duration.'
+        motion['description']='Use [Shot 1] and a timed [Shot 2]. Describe two distinct moving images and name the visible shape, motion or colour that connects them across the cut.'
         return schema
 
     def writer_payload(index):
@@ -122,15 +130,32 @@ def build_pool(ask,user,context,recent,cues,approach,medium,counts,validate,conc
                 if transition and motion[:transition.start()].strip() and motion[transition.end():].strip():
                     motion='[Shot 1] '+motion[:transition.start()]+'match cut [Shot 2] '+motion[transition.end():]
                     v['concept']['motion_cycle']=motion
-            if '[Shot 1]' not in motion or '[Shot 2]' not in motion or 'match cut' not in motion.casefold():
-                raise ValueError('Associative montage must contain [Shot 1] and [Shot 2] showing distinct images connected by a described match cut inside the requested duration.')
+            if '[Shot 1]' not in motion or '[Shot 2]' not in motion:
+                raise ValueError('Associative montage needs [Shot 1] and a timed [Shot 2] with a visible connection between distinct images.')
+            # The editor judges the visual connection. A literal keyword is
+            # neither necessary nor sufficient to establish a match cut.
         merged=list(value['concepts'])
+        validate({'concepts':[v['concept']]},1)
+        used_titles={c['title'].strip().casefold() for i,c in enumerate(merged) if i!=index}
+        title=v['concept']['title'].strip()
+        if title.casefold() in used_titles:
+            # Titles are labels. Keep the proposal and let the content checks
+            # decide whether it is actually distinct from the other concepts.
+            limit=concept_schema['properties']['title']['maxLength']
+            number=2
+            while True:
+                suffix=f' ({number})'
+                alternative=title[:limit-len(suffix)].rstrip()+suffix
+                if alternative.casefold() not in used_titles:
+                    v['concept']['title']=alternative
+                    break
+                number+=1
         if index==len(merged):merged.append(v['concept'])
         else:merged[index]=v['concept']
         validate({'concepts':merged},len(merged))
         return v
 
-    for index in range(6):
+    for index in range(count):
         payload=writer_payload(index)
         payload['task']='Create ONE original complete concept using the assigned directing approach and musical visual brief. The medium is independent of the directing approach. Respect artist direction, exclusions and explicit medium lock; use actual descriptive field values. When animation_medium_lock is not none, begin treatment with that EXACT label followed by a colon. Explore a new premise and visible action; do not reuse reserved titles.'
         result=ask('concept_'+str(index+1),single_system,payload,candidate_schema(index),lambda v:parse_candidate(v,index),max_tokens)
@@ -139,13 +164,15 @@ def build_pool(ask,user,context,recent,cues,approach,medium,counts,validate,conc
     base_fields=base_review_schema['properties']['reviews']['items']['required']
     for round_index in range(3):
         combined=[]
-        for start in (0,3):
+        for start in range(0,count,3):
             local=value['concepts'][start:start+3]
             payload=dict(task='Review these three proposals against the music, their assigned directing approaches, explicit locks and development requirements.',
-                music_cues=cues,music_direction=slate['music_direction'],artist_direction=user['artist_direction'],exclusions=user['exclusions'],
+                music_cues=cues,music_direction=slate['music_direction'],measured_rhythm=user.get('measured_rhythm',{}),
+                artist_direction=user['artist_direction'],exclusions=user['exclusions'],
                 profile=user['profile'],duration_seconds=user['duration_seconds'],concepts=local,
                 assigned_directions=[dict(index=i+1,**directions[start+i]) for i in range(3)],animation_medium_lock=medium,
-                peer_signatures=[dict(title=c['title'],subject=c['subject'][:200]) for i,c in enumerate(value['concepts']) if not start<=i<start+3],
+                peer_signatures=[dict(title=c['title'],subject=c['subject'][:160],premise=directions[i]['premise'],
+                    ending=c['seam_plan'][:160]) for i,c in enumerate(value['concepts']) if not start<=i<start+3],
                 diversity_context=context)
             result=ask('concept_review_'+str(start+1),base_review_system+REVIEW_EXTRA,payload,review_schema,
                 lambda v:validate_enriched_review(v,cues,base_validator,base_fields),min(max_tokens,1800))

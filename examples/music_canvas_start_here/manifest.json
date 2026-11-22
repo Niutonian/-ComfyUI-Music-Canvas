@@ -1,5 +1,5 @@
 {
-  "name": "music_canvas_14sec_max",
+  "name": "music_canvas_start_here",
   "workflows": [
     {
       "name": "default",
@@ -17,22 +17,18 @@
       ]
     },
     {
-      "name": "ComfyUI-MMH3Tools",
-      "git_url": "https://github.com/ckinpdx/ComfyUI-MMH3Tools",
-      "commit": "031bb909061355d6d273dac6fe57601cf8a0197a",
-      "class_types": [
-        "MMH3FrameCalculator"
-      ]
-    },
-    {
       "name": "ComfyUI_LocalMusicCanvas",
-      "git_url": "https://github.com/Niutonian/-ComfyUI-Music-Canvas.git",
-      "commit": "f537649f349e00bb6ce500f541d95b4bca3e4aae",
       "class_types": [
         "MusicCanvasAnalyze",
         "MusicCanvasOllamaDirector",
         "MusicCanvasOllamaModel",
-        "MusicCanvasOllamaRelease"
+        "MusicCanvasOllamaRelease",
+        "MusicCanvasOllamaStoryPlanner",
+        "MusicCanvasOllamaTimeline",
+        "MusicCanvasSave",
+        "MusicCanvasSequenceTiming",
+        "MusicCanvasSequential",
+        "MusicCanvasStoryHelper"
       ]
     }
   ],
@@ -78,12 +74,12 @@
       "sha256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
     },
     {
-      "filename": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "filename": "minimax_h3_dmd_ref2va_8step_turbo_pruned.safetensors",
       "folder": "loras",
-      "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/54472221d27c695fca9621b0c3ed52f06c4af707/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "url": "https://huggingface.co/drbaph/MiniMax-H3-Turbo-Lora-ComfyUI/resolve/bb2bc497cbaca89dadd0bcf1856eed4f8275be20/experimental/minimax_h3_dmd_ref2va_8step_turbo_pruned.safetensors",
       "auth": null,
-      "size_bytes": 1956193000,
-      "sha256": "5b9ab5ade15d0775676d01a907268a69a1468dc6033b3b0d3ded5502f3ebb84c"
+      "size_bytes": 2285989092,
+      "sha256": "693f41129785f31a820d32100b698cdcc42182c27c291f37f47d1ca5f38f5c20"
     },
     {
       "filename": "better_motion_h3_lora_v1_500.safetensors",
@@ -121,18 +117,13 @@
   ],
   "outputs": [
     {
-      "node_id": "33",
+      "node_id": "69",
       "class_type": "SaveVideo",
       "name": "video_0"
-    },
-    {
-      "node_id": "35",
-      "class_type": "SaveVideo",
-      "name": "video_1"
     }
   ],
   "output": {
-    "node_id": "33",
+    "node_id": "69",
     "class_type": "SaveVideo"
   },
   "parameters": [],
@@ -237,8 +228,13 @@
     },
     {
       "module": "ollama",
-      "reason": "A local Ollama service with ornith-1.5:35b is required",
-      "help": "Import the pinned GGUF using docs/ollama/Modelfile; the alias is not assumed to exist in the Ollama registry."
+      "reason": "Local Ollama with Ornith 1.5 9B",
+      "help": "Install the Ollama model described in the Music Canvas README."
+    },
+    {
+      "module": "music_canvas_source",
+      "reason": "Current Music Canvas source",
+      "help": "Install this version of Music Canvas before importing the starter."
     }
   ]
 }

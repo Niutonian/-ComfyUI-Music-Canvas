@@ -203,9 +203,11 @@ from .beat_sync import MusicCanvasBeatSync
 NODE_CLASS_MAPPINGS['MusicCanvasBeatSync'] = MusicCanvasBeatSync
 NODE_DISPLAY_NAME_MAPPINGS['MusicCanvasBeatSync'] = 'Music Canvas · Match Beat Motion'
 
-from .sequential import MusicCanvasSequential
+from .sequential import MusicCanvasContinuityExport, MusicCanvasSequential
 NODE_CLASS_MAPPINGS['MusicCanvasSequential'] = MusicCanvasSequential
 NODE_DISPLAY_NAME_MAPPINGS['MusicCanvasSequential'] = 'Music Canvas · Full Song Sequential H3'
+NODE_CLASS_MAPPINGS['MusicCanvasContinuityExport'] = MusicCanvasContinuityExport
+NODE_DISPLAY_NAME_MAPPINGS['MusicCanvasContinuityExport'] = 'Music Canvas · Export H3 Continuity Timeline'
 
 from .sequence_timing import MusicCanvasSequenceTiming
 NODE_CLASS_MAPPINGS['MusicCanvasSequenceTiming'] = MusicCanvasSequenceTiming
@@ -215,6 +217,8 @@ from .ollama_timeline import MusicCanvasOllamaTimeline
 NODE_CLASS_MAPPINGS['MusicCanvasOllamaTimeline'] = MusicCanvasOllamaTimeline
 NODE_DISPLAY_NAME_MAPPINGS['MusicCanvasOllamaTimeline'] = 'Music Canvas · Full Song Ollama Timeline'
 
-from .story_planner import MusicCanvasOllamaStoryPlanner
+from .story_planner import MusicCanvasOllamaStoryPlanner, MusicCanvasStoryHelper
 NODE_CLASS_MAPPINGS['MusicCanvasOllamaStoryPlanner'] = MusicCanvasOllamaStoryPlanner
 NODE_DISPLAY_NAME_MAPPINGS['MusicCanvasOllamaStoryPlanner'] = 'Music Canvas · Story Planner and Editor'
+NODE_CLASS_MAPPINGS['MusicCanvasStoryHelper'] = MusicCanvasStoryHelper
+NODE_DISPLAY_NAME_MAPPINGS['MusicCanvasStoryHelper'] = 'Music Canvas · Story Helper'

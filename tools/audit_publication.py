@@ -3,7 +3,7 @@ import argparse,hashlib,io,json,re,subprocess,sys,zipfile
 from pathlib import Path,PurePosixPath
 
 ROOT=Path(__file__).resolve().parents[1]
-NAMES=('music_canvas_simple','music_canvas_sequential_Good','music_canvas_14sec_max')
+NAMES=('music_canvas_start_here',)
 SECRET_RULES={
     'private-key':re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----'),
     'github-token':re.compile(r'\b(?:gh[pousr]_[A-Za-z0-9]{25,}|github_pat_[A-Za-z0-9_]{30,})\b'),
